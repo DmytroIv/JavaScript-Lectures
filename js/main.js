@@ -52,4 +52,12 @@
 // console.log(x);
 
 
+// var x = ['123'];
+// console.log(x[0]); // 123;
+// var y = x;
+// console.log(y); // [123];
+// y[0] = 345; 
+// console.log(x); // [345];
+// console.log(y); // [345];
+
 
