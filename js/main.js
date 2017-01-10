@@ -122,18 +122,31 @@ function toOneDimension(array, newArray){
 
 // console.log(string.substr(1, 5)); //"est s"
 
+//console.log(string.indexOf("t")); //0
+//console.log(string.lastIndexOf("t")); //6
 
+//console.log(string.indexOf("est")); //1
+//console.log(string.lastIndexOf("ing")); //8
 
+//~ bites not
 
+//var x = ~25; //-(25+1) //-26
+//console.log(x);
+//var y = ~-10; //-(-10+1) //9
+//console.log(y);
 
+//console.log(~-1);//0
+//console.log(~0);//-1
+x = "some steing";
+console.log(~string.indexOf("t"));
+console.log(~string.indexOf("rest"));
 
-
-
-
-
-
-
-
+if(~string.indexOf(x)){
+	console.log(x)
+}
+if(string.indexOf(x) !== -1){
+	console.log(x)
+}
 
 
 
