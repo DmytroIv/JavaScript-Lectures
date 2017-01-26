@@ -55,9 +55,11 @@ console.log(testText.replace(/"(.+?)"/g, function (elem){
 
 console.log(testText.replace(/"(.+?)"/g, 123));
 
+var fileName = "text.png";
 
+console.log(fileName.match(/.\w+$/g));
 
-
+console.log(fileName.match(/.\jpg|png|gif$/g));
 
 
 
