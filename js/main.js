@@ -1,5 +1,6 @@
 (function (){
-	"use strict"
+    "use strict";
+
 	var modules = {},
 		ourAwesomeApi = {};
 	
@@ -40,7 +41,7 @@
 		else {
 			throw ("Module does not exist");
 		}
-	};
+	}
 	
 })();
 //regExp
@@ -54,38 +55,30 @@
 	//Functions
 	function hasTextBySample(string, regExp) {
 		return regExp.test(string);
-	};
+	}
 	
 	function getMatches(string, regExp) {
-		var regExp = new RegExp(regExp,"g");
+		regExp = new RegExp(regExp,"g");
 		return string.match(regExp);
-	};
+	}
 	
 	function getPartedPhone(string) {
 		var str = string.match(/\+?(\d{1,2})[^]?(\d{3})[^]?(\d{3}[^]?\d{2}[^]?\d{2})/);
-		if(!str){ throw("Invalid phone number")}
+		if(!str){ throw("Invalid phone number");}
 		
 		var obj = {};		
-		obj.countryCode = str[1]
-		obj.cityCode = str[2]
-		obj.phone = str[3]
+		obj.countryCode = str[1];
+		obj.cityCode = str[2];
+		obj.phone = str[3];
 				
 		return obj;		
-	};
+	}
 	//
 	function checkEverylineMatch(string, regExp) {
 		var lines = string.split(/\n/);
 		return lines.every(function (line){return regExp.test(line)});
-	};
-	
-	var str = "asdasds tel +3(212)9993388\nasdasds tel +3(212)9993388\nasdasds tel +3(212)9993388\nasdasds tel +3(212)9993388\nasdasds tel +3(212)9993388";
-	
-	//console.log(hasTextBySample("string", /string+s?/i));
-	//console.log(getMatches(str, /\(/));
-	//console.log(getPartedPhone("asdasds tel +3(212)9993388"));	
-	//console.log(str);
-	//console.log(checkEverylineMatch(str, /\+{1}/g));	
-	
+	}
+
 })();
 //Date
 (function (){
@@ -98,59 +91,76 @@
 	//Functions
 		
 	function getDayByDate(year, month, day) {
-		var weekDay = new Date(year, month, day);
-		switch(weekDay.getDay()){
-			case 0: 
-				return "su";
-				break;
-			case  1: 
-				return "mo";
-				break;
-			case 2: 
-				return "tu";
-				break;
-			case 3: 
-				return "we";
-				break;
-			case 4: 
-				return "th";
-				break;
-			case 5: 
-				return "fr";
-				break;
-			case 6: 
-				return "sa";
-				break;
-			default: 
-			throw("wrong date");
-		}
-	};
+		var weekDay = new Date(year, month, day),
+        daysOfWeekArray = ["su", "mo", "tu", "we", "th", "fr", "sa"];
+		return daysOfWeekArray[weekDay.getDay()];
+	}
 	
 	function isYearLeap(year) {
-		var year = new Date(year,1, 29);
+		year = new Date(year,1, 29);
 		return year.getMonth() === 1;
-	};
+	}
 	
 	function getWeekendsCount(year, month) {
-		var monthInYear = new Date(year, month, 1);
+		var monthInYear = new Date(year, month + 1, 0).getDate();
 		var	counter = 0;
-		for(var i = 1;monthInYear.getMonth() === new Date(year, month, i); i++){
-			var monthLooping = new Date(year, month, i);
-			console.log(monthInYear);
-			if(monthLooping.getDay() === 0 || monthLooping.getDay() === 6){
+		for(var i = 1; i <= monthInYear; i++){
+			var monthLooping = new Date(year, month, i).getDay();
+			if(monthLooping === 0 || monthLooping === 6){
 				counter++;
 			}
 		}
 		return counter;
-	};
+	}
+
+
+	//done without optimization
+	function getPayDayDate(year, month, notification){
+		var counter = 0,
+        	todayArray = [new Date().getDate(), new Date().getMonth(), new Date().getFullYear()],
+        	paymentDayArray = notification(year, month);
+
+        console.log(todayArray, paymentDayArray);
+
+        if(todayArray[0] <= paymentDayArray[0] && todayArray[1] ==! paymentDayArray[1]) {
+            for (var i = todayArray[0]; i < paymentDayArray[0]; i++) {
+                counter++;
+            }
+            if(!counter){return "Today is PayDay!!!"}
+        }else{
+			var diffDays = getDifferenceBetweenDays(todayArray, paymentDayArray);
+        	return "Payment already has been in this month, you will get pay in - " + (diffDays - 1) + " days" ;
+		}
+		return "Payment day will be in " + counter + " days, on " + paymentDay;
+
+    }
 	
-	function getPayDayDate(yeat, month, notification){};
-	
-	//console.log(getDayByDate(2017, 0, 1));
-	//console.log(isYearLeap(2016));
-	console.log(getWeekendsCount(2017, 0));
-	
-	
+	//function notification for getting second friday date array
+    function notification(year, month) {
+        var dateOfMonthInYear = year && month ? (new Date(year, month + 1, 0).getDate()) : (new Date().getDate()),
+            fridaysDateArray = [];
+        for(var i = 1; i <= dateOfMonthInYear; i++){
+            var monthLooping = new Date(year, month, i).getDay();
+            if(monthLooping === 5){
+                fridaysDateArray.push([new Date(year, month, i).getDate(), (new Date(year, month, i).getMonth()), new Date(year, month, i).getFullYear()]);
+            }
+        }
+        return fridaysDateArray[1];
+    }
+	//function difference between dates
+    function getDifferenceBetweenDays(arrayOfFirstYearMonthDate, arrayOfSecondYearMonthDate) {
+        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+        var firstDate = new Date(arrayOfFirstYearMonthDate[2], arrayOfFirstYearMonthDate[1], arrayOfFirstYearMonthDate[0]);
+        var secondDate = new Date(arrayOfSecondYearMonthDate[2], arrayOfSecondYearMonthDate[1], arrayOfSecondYearMonthDate[0]);
+        return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+    }
+
+	//console.log(getDayByDate(2017, 0, 28));
+	//console.log(isYearLeap(2017));
+	//console.log(getWeekendsCount(2017, 0));
+	//console.log(notification(2017, 0));
+	//console.log(getPayDayDate(2017, 1, notification));
+
 })();
 
 
