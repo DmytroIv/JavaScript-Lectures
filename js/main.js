@@ -112,27 +112,24 @@
 		}
 		return counter;
 	}
-
-
-	//done without optimization
-	function getPayDayDate(year, month, notification){
+	//
+	function getPayDayDate(year, month, notificationFunction){
 		var counter = 0,
-        	todayArray = [new Date().getDate(), new Date().getMonth(), new Date().getFullYear()],
+			todayDate = new Date(),
+        	todayArray = [todayDate.getDate(), todayDate.getMonth(), todayDate.getFullYear()],
         	paymentDayArray = notification(year, month);
-
-        console.log(todayArray, paymentDayArray);
-
-        if(todayArray[0] <= paymentDayArray[0] && todayArray[1] ==! paymentDayArray[1]) {
-            for (var i = todayArray[0]; i < paymentDayArray[0]; i++) {
+        if(todayArray[1] === paymentDayArray[1]) {
+        	if(todayArray[0] <= paymentDayArray[0]){
+        		for (var i = todayArray[0]; i < paymentDayArray[0]; i++) {
                 counter++;
             }
-            if(!counter){return "Today is PayDay!!!"}
-        }else{
-			var diffDays = getDifferenceBetweenDays(todayArray, paymentDayArray);
-        	return "Payment already has been in this month, you will get pay in - " + (diffDays - 1) + " days" ;
-		}
-		return "Payment day will be in " + counter + " days, on " + paymentDay;
-
+            	return !counter ? "Today is PayDay!!!" : "Payment day will be in " + counter + " days. Date of payment " + paymentDayArray;
+        	} else {
+        		return "Payment already has been this month.";
+			}
+        }
+		var diffDays = getDifferenceBetweenDays(todayArray, paymentDayArray);
+        return "You will get pay in - " + (diffDays - 1) + " days. Date of payment: " + paymentDayArray;
     }
 	
 	//function notification for getting second friday date array
@@ -155,15 +152,63 @@
         return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
     }
 
-	//console.log(getDayByDate(2017, 0, 28));
-	//console.log(isYearLeap(2017));
-	//console.log(getWeekendsCount(2017, 0));
-	//console.log(notification(2017, 0));
-	//console.log(getPayDayDate(2017, 1, notification));
+	// console.log(getDayByDate(2017, 0, 28));
+	// console.log(isYearLeap(2017));
+	// console.log(getWeekendsCount(2017, 0));
+	// console.log(notification(2017, 0));
+	// console.log(getPayDayDate(2017, 1));
 
 })();
 
+(function (){
+    api.addModule("commonServices",{
+        getTypeOf: getTypeOf,
+        combine: combine,
+        limitTo: limitTo
+    });
+    //Functions
+	function getTypeOf(elem){
+		return {}.toString.call(elem).slice(8, -1);
+	}
 
+	function combine(elem1, elem2, stringSeparator){
+		var elem3 = [elem1, elem2];
+		if(getTypeOf(elem1) === "String" || getTypeOf(elem1) === "Array"){
+			elem3 = !stringSeparator ? elem1.concat(elem2): elem1.concat(stringSeparator, elem2);
+		}else if (isFinite(elem1) && getTypeOf(elem1) === "Number"){
+			elem3 = elem1 + elem2;
+		}else if(getTypeOf(elem1) === "Object"){
+			elem3 = Object.assign({}, elem1, elem2);
+		}
+		return elem3;
+	}
+
+    function limitTo(element, limit) {
+		var returnElement = element;
+		if(getTypeOf(element) === "String" || getTypeOf(element) === "Array"){
+			returnElement = element.slice(0, limit);
+		}else if(isFinite(element) && getTypeOf(element) === "Number"){
+			returnElement = element < limit ? element : limit;
+		}
+		return returnElement;
+	}
+
+    // console.log(getTypeOf(null));
+
+    // console.log(combine("123", "123", ", "));
+    // console.log(combine([1, 2, 3, 5], ["a", "b", "c"]));
+    // console.log(combine(123, 123));
+    // console.log(combine({"a": 1, "ab": 55, "ac": "was"}, {"b": true, "bb": [1,2,3], "bc": 11}));
+    // console.log(combine(/asd/, null));
+
+    console.log(limitTo("12345abcde", 2));
+    console.log(limitTo([1, 2, 3, 4, 5], 2));
+    console.log(limitTo(123, 122));
+    console.log(limitTo({"a": 1, "ab": 55, "ac": "was"}));
+    console.log(limitTo(/asd/, null));
+
+
+})();
 
 
 
