@@ -264,9 +264,20 @@
 
 (function(){
     api.addModule("storagesServices", {
-
+        createNumbersStorage: createNumbersStorage,
+        addNewNumber: addNewNumber,
+        removeNumberByIndex: removeNumberByIndex,
+        getAllNumbers: getAllNumbers,
+        getNumbersInRange: getNumbersInRange
 	});
+
+
     //Functions
+
+    function createNumbersStorage(storageName) {
+        storageName = [];
+        return ;
+    }
 
 })();
 
