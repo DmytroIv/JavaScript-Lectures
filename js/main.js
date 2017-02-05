@@ -278,91 +278,63 @@
     //console.log(sortByField(arr, "first"/*, "descending"*/));
 
 })();
-
+//wrong !!!
 (function(){
     api.addModule("storagesServices", {
         createNumbersStorage: createNumbersStorage
-        //addNewNumber: addNewNumber,
-        // removeNumberByIndex: removeNumberByIndex,
-        // getAllNumbers: getAllNumbers,
-        // getNumbersInRange: getNumbersInRange
 	});
-	//Functions
-
+	//Function
     function createNumbersStorage() {
-		function addNewNumber(item) {
-            newA.push(item);
-        }
-        function getAllNumbers(){
-        	console.log();
-		}
+    	var object = {"numberStorage": [],
+            "addNewNumber": function addNewNumber (newNumber) {
+    			this.numberStorage[this.numberStorage.length] = newNumber;
+    			return this;
+        	},
+            "removeNumberByIndex": function removeNumberByIndex (index) {
+               this.numberStorage.splice(index, 1);
+                return this;
+            },
+			"getAllNumbers": function () {
+				return this.numberStorage.reduce(function (listOfItems, item, i, arr) {
+					return listOfItems + "," + item;
+                }/*, ""*/);
+            },
+			"getNumbersInRange": function (from, to) {
+				return this.numberStorage.filter(function (item, i, arr) {
+					return item >= from && item <= to;
+                });
+            }
+		};
+		Object.defineProperties(object, {
+			"numberStorage": {
+				//__proto__: null,
+				//writable: true,
+				//enumerable: true,
+                configurable: false
+			}
+		});
+    	//object.numberStorage.__proto__ = null;// no inheritance
+		return object;
     }
-
-
-
-
-
 })();
+/*var test = api.getModule("storagesServices");
+var testArray = test.createNumbersStorage();
 
+testArray.addNewNumber(1).addNewNumber(2).addNewNumber(3).removeNumberByIndex(0);
+console.log(testArray);
 
-var testStoragesServices = api.getModule("storagesServices");
-console.log(testStoragesServices);
+testArray.numberStorage.push(4, 5, 6, 7, 8); //do not allow changing
 
-var newArr = testStoragesServices.createNumbersStorage();
+var a = testArray.getAllNumbers();
+var b = testArray.getNumbersInRange(5, 8);
 
+console.log(b);
+console.log(testArray);
+console.log(a);
+delete testArray[0];
 
-console.log(newArr);
-//console.log(newArr);
-
-//newArr.push(1,2,3,4,5);
-//console.log(newArr);
-
-
-
-/*
- api.addModule("test", {});
-
- api.addMethod("test", "testMethod", function () {
- console.log("Kiyyaa!!!");
- });
-
- var testModule = api.getModule("commonServices");
-
- console.log(testModule);
- var someThing = testModule.getTypeOf;
- console.log(someThing({}));
- */
-/*
-
-var test = api.getModule("dataServices");
-var payDay = test.getPayDayDate;
-console.log(payDay(2017, 1));
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(testArray);*/
+//
 
 
 
