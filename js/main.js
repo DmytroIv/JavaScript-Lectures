@@ -9,7 +9,7 @@
 	ourAwesomeApi.addMethod = addMethod;
 	
 	window.api = ourAwesomeApi;
-	
+
 	//Functions
 	function addModule(name, module) {
 		if(modules[name]){
@@ -27,7 +27,7 @@
 			throw ("Module does not exist");
 		}
 		else if(modules[moduleName].prototype[name]){
-			throw ("Method alredy exist");	
+			throw ("Method already exist");
 		}
 		else {
 			modules[moduleName].prototype[name] = method;
@@ -112,7 +112,7 @@
 		return counter;
 	}
 	//
-	function getPayDayDate(year, month, notificationFunction){
+	function getPayDayDate(year, month /*, notificationFunction*/){
 		var counter = 0,
 			todayDate = new Date(),
         	todayArray = [todayDate.getDate(), todayDate.getMonth(), todayDate.getFullYear()],
@@ -136,9 +136,9 @@
         var dateOfMonthInYear = year && month ? (new Date(year, month + 1, 0).getDate()) : (new Date().getDate()),
             fridaysDateArray = [];
         for(var i = 1; i <= dateOfMonthInYear; i++){
-            var monthLooping = new Date(year, month, i).getDay();
-            if(monthLooping === 5){
-                fridaysDateArray.push([new Date(year, month, i).getDate(), (new Date(year, month, i).getMonth()), new Date(year, month, i).getFullYear()]);
+            var monthLooping = new Date(year, month, i);
+            if(monthLooping.getDay() === 5){
+                fridaysDateArray.push([monthLooping.getDate(), monthLooping.getMonth(), monthLooping.getFullYear()]);
             }
         }
         return fridaysDateArray[1];
@@ -155,7 +155,7 @@
 	// console.log(isYearLeap(2017));
 	// console.log(getWeekendsCount(2017, 0));
 	// console.log(notification(2017, 0));
-	// console.log(getPayDayDate(2017, 1));
+	//console.log(getPayDayDate(2017, 1));
 
 })();
 //work at home
@@ -171,25 +171,27 @@
 	}
 
 	function combine(elem1, elem2, stringSeparator){
-		var elem3 = [elem1, elem2];
-		if(getTypeOf(elem1) === "String" || getTypeOf(elem1) === "Array"){
+		var elem3 = [elem1, elem2],
+            typeOfElement = getTypeOf(elem1);
+		if(typeOfElement === "String" || typeOfElement === "Array"){
 			elem3 = !stringSeparator ? elem1.concat(elem2): elem1.concat(stringSeparator, elem2);
-		}else if (isFinite(elem1) && getTypeOf(elem1) === "Number"){
+		}else if (typeOfElement && typeOfElement === "Number"){
 			elem3 = elem1 + elem2;
-		}else if(getTypeOf(elem1) === "Object"){
+		}else if(typeOfElement === "Object"){
 			elem3 = Object.assign({}, elem1, elem2);
 		}
 		return elem3;
 	}
 
     function limitTo(element, limit) {
-		var returnElement = element;
-		if(getTypeOf(element) === "String" || getTypeOf(element) === "Array"){
+		var returnedElement = element,
+			typeOfElement = getTypeOf(element);
+		if(typeOfElement === "String" || typeOfElement === "Array"){
 			returnElement = element.slice(0, limit);
-		}else if(isFinite(element) && getTypeOf(element) === "Number"){
+		}else if(isFinite(element) && typeOfElement === "Number"){
 			returnElement = element < limit ? element : limit;
 		}
-		return returnElement;
+		return returnedElement;
 	}
 
     // console.log(getTypeOf(null));
@@ -213,6 +215,9 @@
         findByField: findByField,
         sortByField: sortByField
     });
+    //using commonServices module and methods from
+    var newCommonServices = api.getModule("commonServices");
+    var getTypeOf = newCommonServices.getTypeOf;
     //Functions
 	function filterByField(array, field) {
 		return array.filter(function(element, i, array) {
@@ -225,63 +230,114 @@
 		var obj = undefined;
 		array.forEach(function(element, i, array){
 			for(var key in array[i]){
-				if(key === field && array[i][key] === value){
-					obj = {};
-				 	obj[key] = value;
-				}
+                if(array[i].hasOwnProperty(key)){
+					if(key === field && array[i][key] === value){
+						obj = {};
+						obj[key] = value;
+					}
+                }
 			}
 		});
 		return obj;
 	}
-    function sortByField(array, field, direction) {}
 
-    /*var arr = [
-        {1:1, first: false, second: undefined},
-        {2:2, first: -1, second: "asd"},
-        {3:3, first: 0, second: 123},
-        {4:4, first: 3,second: "dsa" },
-        {5:5, first: 12.2, second: null },
-        {6:6, first: "", second: [1,2,3] },
-        {7:7, first: null, second: Infinity},
-        {8:8, first: null, second: Infinity},
-        {9:9, first: null, second: Infinity},
-        {10:10, first: NaN, second: null},
-        {11:11, first: undefined, second: undefined},
-        {12:12, first: undefined, second: undefined},
-        {13:13, first: undefined, second: null},
-        {14:14, first: undefined, second: null}
-    ];
-	arr = filterByField(arr, "second");*/
+    function sortByField(array, field, direction) {
+		return array.sort(sortingArray(array, field, direction));
+	}
+	function sortingArray(array, sortBy, order){
+		return array.sort(function (a, b) {
+			var a = a[sortBy],
+				b = b[sortBy];
+			var elemA = getTypeOf(a),
+				elemB = getTypeOf(b);
+			if (elemA === "String" && elemB === "String"){
+                var aStr = a.toLowerCase(),
+                    bStr = b.toLowerCase();
+				return order === "descending" ? (aStr < bStr ? 1 : aStr > bStr ? -1 : 0) :
+					(aStr > bStr ? 1 : aStr < bStr ? -1 : 0);
+			}
+			return order === "descending" ? b - a : a - b; //for Numbers and Dates
+		});
+	}
 
-	/*var arrFields = [{"asd": 1, 2: "qwe", "ads":"zxc"},
-        {55: 1, "er": "qwe", 3:"123"},
-        {"mkl": "lpl", "ddf2": "mk", "a":"z"},
-        {"mkl": "lpl", "ddf2": "mk", "a":"z"}
-	];
-    console.log(findByField(arrFields, "55", 1));*/
+	/*
+    var arr = [
+        {"str": "avc", 1:1, first: false, second: undefined, "third": new Date(2017, 3, 1)},
+        {"str": "aaa", 2:2, first: -1, second: "asd", "third": new Date(2011, 5, 17)},
+        {"str": "vdf", 3:3, first: 0, second: 123, "third": new Date(2011, 3, 30)},
+        {"str": "bgf", 4:4, first: "1111",second: "dsa" , "third": new Date(2017, 3, 30)},
+        {"str": "nqq", 5:5, first: 12.2, second: null , "third": new Date(1200, 10, 17)},
+        {"str": "zwe", 6:6, first: "135", second: [1,2,3] , "third": new Date(2017, 1, 6)},
+        {"str": "AAA", 7:7, first: null, second: Infinity, "third": new Date(1950, 7, 7)}
+    ];*/
+	//arr = filterByField(arr, "third");
+
+    //console.log(findByField(arr, "first", 12.21));
+
+
+    //console.log(sortByField(arr, "first"/*, "descending"*/));
 
 })();
 
 (function(){
     api.addModule("storagesServices", {
-        createNumbersStorage: createNumbersStorage,
-        addNewNumber: addNewNumber,
-        removeNumberByIndex: removeNumberByIndex,
-        getAllNumbers: getAllNumbers,
-        getNumbersInRange: getNumbersInRange
+        createNumbersStorage: createNumbersStorage
+        //addNewNumber: addNewNumber,
+        // removeNumberByIndex: removeNumberByIndex,
+        // getAllNumbers: getAllNumbers,
+        // getNumbersInRange: getNumbersInRange
 	});
+	//Functions
 
-
-    //Functions
-
-    function createNumbersStorage(storageName) {
-        storageName = [];
-        return ;
+    function createNumbersStorage() {
+		function addNewNumber(item) {
+            newA.push(item);
+        }
+        function getAllNumbers(){
+        	console.log();
+		}
     }
+
+
+
+
 
 })();
 
 
+var testStoragesServices = api.getModule("storagesServices");
+console.log(testStoragesServices);
+
+var newArr = testStoragesServices.createNumbersStorage();
+
+
+console.log(newArr);
+//console.log(newArr);
+
+//newArr.push(1,2,3,4,5);
+//console.log(newArr);
+
+
+
+/*
+ api.addModule("test", {});
+
+ api.addMethod("test", "testMethod", function () {
+ console.log("Kiyyaa!!!");
+ });
+
+ var testModule = api.getModule("commonServices");
+
+ console.log(testModule);
+ var someThing = testModule.getTypeOf;
+ console.log(someThing({}));
+ */
+/*
+
+var test = api.getModule("dataServices");
+var payDay = test.getPayDayDate;
+console.log(payDay(2017, 1));
+*/
 
 
 
@@ -325,50 +381,6 @@
 
 
 
-
-
-
-
-
-
-function getTypeOf(elem){
-    return {}.toString.call(elem).slice(8, -1);
-}
-
-function getSortedArray(arrayOfObjects, field, order) {
-            return sortingArray(arrayOfObjects, field, order);
-}
-
-function sortingArray(array, sortBy, order){
-    return array.sort(function (a, b) {
-        if (getTypeOf(a) === "Object" && a !== null){
-            if ((typeof a[sortBy] === "string" && typeof b[sortBy] === "string") && isNaN(parseInt(a[sortBy]))) {
-                var a = a[sortBy].toLowerCase(),
-                    b = b[sortBy].toLowerCase();
-                return order === "descending" ? (a < b ? 1 : a > b ? -1 : 0) : (a > b ? 1 : a < b ? -1 : 0);
-            }
-            return order === "descending" ? b[sortBy] - a[sortBy] : a[sortBy] - b[sortBy];
-        }
-        if(getTypeOf(a) === "Date"){      console.log("ooops!");        return a.getTime() - b.getTime();}
-        return (typeof a  === "string" && typeof b === "string") ? a.toLowerCase().charCodeAt(0) - b.toLowerCase().charCodeAt(0) : a - b ;
-    });
-}
-
-var personFrom = [
-    {"name": "Zasya","age": "111"},
-    {"name": "asdsya","age": "12"},
-    {"name": 123,"age": "111"},
-    {"name": "Dusia","age": "33"},
-    {"name":  new Date(2017, 2, 35),"age": 10},
-    {"name":  new Date(2011, 7, 25), "age": "13"},
-    {"name": "Zztia","age": 15},
-    {"name": "Gadia","age": "22"},
-    {"name": new Date(2014, 2, 15),"age": 30},
-    {"name": "Misha","age": 25}
-];
-
-
-//console.log(getSortedArray(personFrom, "name"));
 
 
 
