@@ -158,7 +158,17 @@
 	//console.log(getPayDayDate(2017, 1));
 
 })();
+
+
+
+
+
+
+
+
+
 //work at home
+//page 6
 (function (){
     api.addModule("commonServices",{
         getTypeOf: getTypeOf,
@@ -187,9 +197,9 @@
 		var returnedElement = element,
 			typeOfElement = getTypeOf(element);
 		if(typeOfElement === "String" || typeOfElement === "Array"){
-			returnElement = element.slice(0, limit);
+            returnedElement = element.slice(0, limit);
 		}else if(isFinite(element) && typeOfElement === "Number"){
-			returnElement = element < limit ? element : limit;
+            returnedElement = element < limit ? element : limit;
 		}
 		return returnedElement;
 	}
@@ -208,7 +218,7 @@
     // console.log(limitTo({"a": 1, "ab": 55, "ac": "was"}));
     // console.log(limitTo(/asd/, null));
 })();
-
+//page 7
 (function (){
     api.addModule("arrayServices", {
         filterByField: filterByField,
@@ -276,90 +286,185 @@
 
 
     //console.log(sortByField(arr, "first"/*, "descending"*/));
-
 })();
-//wrong !!!
+//page 8
 (function(){
     api.addModule("storagesServices", {
         createNumbersStorage: createNumbersStorage
 	});
 	//Function
+	function newArrayCreate() {
+        return [];
+    }
+
     function createNumbersStorage() {
-    	var object = {"numberStorage": [],
-            "addNewNumber": function addNewNumber (newNumber) {
-    			this.numberStorage[this.numberStorage.length] = newNumber;
+		var newArray = newArrayCreate();
+
+    	var object = {
+            "addNewNumber": function (newNumber) {
+                newArray[newArray.length] = newNumber;
     			return this;
         	},
-            "removeNumberByIndex": function removeNumberByIndex (index) {
-               this.numberStorage.splice(index, 1);
+            "removeNumberByIndex": function (index) {
+                newArray.splice(index, 1);
                 return this;
             },
 			"getAllNumbers": function () {
-				return this.numberStorage.reduce(function (listOfItems, item, i, arr) {
-					return listOfItems + "," + item;
-                }/*, ""*/);
+            	var test = [];
+            	newArray.forEach(function(item, i, arr){ test[i] = arr[i] });
+            	return test;
             },
 			"getNumbersInRange": function (from, to) {
-				return this.numberStorage.filter(function (item, i, arr) {
+				return newArray.filter(function (item) {
 					return item >= from && item <= to;
                 });
             }
 		};
-		Object.defineProperties(object, {
-			"numberStorage": {
-				//__proto__: null,
-				//writable: true,
-				//enumerable: true,
-                configurable: false
-			}
-		});
-    	//object.numberStorage.__proto__ = null;// no inheritance
-		return object;
+		Object.freeze(object);
+    	return object;
     }
 })();
-/*var test = api.getModule("storagesServices");
-var testArray = test.createNumbersStorage();
-
-testArray.addNewNumber(1).addNewNumber(2).addNewNumber(3).removeNumberByIndex(0);
-console.log(testArray);
-
-testArray.numberStorage.push(4, 5, 6, 7, 8); //do not allow changing
-
-var a = testArray.getAllNumbers();
-var b = testArray.getNumbersInRange(5, 8);
-
-console.log(b);
-console.log(testArray);
-console.log(a);
-delete testArray[0];
-
-console.log(testArray);*/
 //
+/*
+var test = api.getModule("storagesServices");
+test = test.createNumbersStorage();
+test.addNewNumber(1).addNewNumber(9).addNewNumber(8).addNewNumber(7).removeNumberByIndex(1);
 
+var best = test.getNumbersInRange(5, 10);
+console.log(test.getAllNumbers());
 
+var test2 = api.getModule("storagesServices");
+test2 = test2.createNumbersStorage();
+test2.addNewNumber(555);
+console.log(test2.getAllNumbers());
+*/
+//
+//page 9
+(function(){
+    api.addModule("usersStorageServices", {
+        createUsersStorage: createUsersStorage
+	});
+    //Function
+    function newArrayCreate() {
+        return [];
+    }
+	function createUsersStorage() {
+        var newArray = newArrayCreate();
 
+        var object = {
+            "addNewUser": function (firstName, lastName, birthDate, friends) {
+                //{firstName: "", lastName:"", birthDate: Date(), id: "", friends: ["id1", "id2",…"idN"]}
+                newArray[newArray.length] = {firstName: firstName, lastName: lastName, birthDate: birthDate, id: newArray.length, friends: friends};
+                return this;
+            },
+            "removeUserById": function (id) {
+            	if(!id){throw "incorrect id"}
+                newArray.forEach(function (item, i, array) {
+					if(array[i].id === id){array.splice(i,1);}
+                });
+                return this;
+            },
 
+			//methods - where do they locate ?
+            "getFullName": function (searchBy) {
+                var findedUsersArray = this.searchingValueInArray(searchBy);
+                findedUsersArray = findedUsersArray.map(function (item) {
+					return item["firstName"] + " " + item["lastName"];
+                });
+                if(!findedUsersArray.length){ throw "no users with that searcher" }
+                return findedUsersArray ;
+            },
 
+            "getAge": function(searchBy){
+                var findedUsersArray = this.searchingValueInArray(searchBy);
+                findedUsersArray = findedUsersArray.map(function (item) {
+					var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+					var oneYear = 365;
+					var firstDate = item.birthDate;
+					var secondDate = new Date();
+                return "userId: " + item.id + " age: " + Math.round((Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)))/(oneYear));
+                });
+                return findedUsersArray
+			},
+			"getFriendsIds": function (searchBy) {
+                var findedUsersArray = this.searchingValueInArray(searchBy);
+                findedUsersArray = findedUsersArray.map(function (item) {
+					return item.friends;
+                });
+                return findedUsersArray
+            },
 
+            "addFriendId": function (searchBy, friendId) {
+                var counter = 0;
+            	newArray.forEach(function (item, i, array) {
+					if(item.id === friendId){counter++;}
+                });
+                if(!counter){throw "no id in usersStorage"}
 
+				//checking on id repeat
+                newArray.forEach(function (item, i, array) {
+					item["friends"].forEach(function (item, i, array) {if(array[i] === friendId){throw("this user already hav that friend")}})
+                });
 
+                newArray.forEach(function (item, i, array) {
+                    for(var key in array[i]){
+                        if(array[i][key] === searchBy){array[i]["friends"].push(friendId);}
+                    }
+                });
+                return true;
+            },
+            "removeFriendById": function (searchBy, friendId) {
+                newArray.forEach(function (item, i, array) {
+                    for(var key in array[i]){
+                        if(array[i][key] === searchBy){
+                        	array[i]["friends"].forEach(function (item,i,array) {
+                        		if(array[i] === friendId){array.splice(i, 1);}} );
+                        }
+                    }
+                });
+            },
 
+			//repeated code
+			"searchingValueInArray": function(searchBy){
+				var findedUsersArray = newArray.filter(function (item, i, array) {
+					for(var key in array[i]){
+						if(array[i][key] === searchBy){return true;}
+					}
+				});
+				return findedUsersArray;
+			},
+			//array for checking
+			"returnArrOfUsers": function () {
+				return newArray;
+            }
+        };
 
+        Object.freeze(object);
+        return object;
+    }
+})();
 
+var userTest = api.getModule("usersStorageServices");
+userTest = userTest.createUsersStorage();
+userTest.addNewUser("Vasil", "Ivanov", new Date(2000, 0, 1), [])
+	.addNewUser("Henry", "Ivanov", new Date(2011, 0, 1), [])
+	.addNewUser("Petia", "Sidorov", new Date(1900, 11, 11), [])
+	.addNewUser("Anka", "Kulemetova", new Date(2010, 3, 21), [])
+	.addNewUser("Spiridon", "Okolonko", new Date(1911, 7, 7), [])
+	.addNewUser("Gena", "Petrenko", new Date(1985, 5, 17), [])
+	.removeUserById(3)
+	.removeUserById(3);
 
+console.log(userTest.getFullName("Gena"));
+console.log(userTest.getAge("Ivanov"));
+console.log("arrays of friends", userTest.getFriendsIds("Ivanov")); //not checked
+userTest.addFriendId("Ivanov", 4);
+userTest.addFriendId("Ivanov", 2);
+userTest.removeFriendById("Ivanov", 4);
 
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(userTest);
+var returnArrOfUsers = userTest.returnArrOfUsers();
+console.log(returnArrOfUsers);
 
 
 
