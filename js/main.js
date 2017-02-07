@@ -185,7 +185,7 @@
             typeOfElement = getTypeOf(elem1);
 		if(typeOfElement === "String" || typeOfElement === "Array"){
 			elem3 = !stringSeparator ? elem1.concat(elem2): elem1.concat(stringSeparator, elem2);
-		}else if (typeOfElement && typeOfElement === "Number"){
+		}else if (typeOfElement === "Number"){
 			elem3 = elem1 + elem2;
 		}else if(typeOfElement === "Object"){
 			elem3 = Object.assign({}, elem1, elem2);
@@ -237,18 +237,12 @@
 	}
 
     function findByField(array, field, value) {
-		var obj = undefined;
-		array.forEach(function(element, i, array){
-			for(var key in array[i]){
-                if(array[i].hasOwnProperty(key)){
-					if(key === field && array[i][key] === value){
-						obj = {};
-						obj[key] = value;
-					}
-                }
+	    for(var i = 0; i < array.length; i++){
+			if(array[i][field] === value){ 
+				return array[i]; 
 			}
-		});
-		return obj;
+		}
+	  	
 	}
 
     function sortByField(array, field, direction) {
@@ -293,14 +287,10 @@
         createNumbersStorage: createNumbersStorage
 	});
 	//Function
-	function newArrayCreate() {
-        return [];
-    }
+    	function createNumbersStorage() {
+		var newArray = [];
 
-    function createNumbersStorage() {
-		var newArray = newArrayCreate();
-
-    	var object = {
+    	return {
             "addNewNumber": function (newNumber) {
                 newArray[newArray.length] = newNumber;
     			return this;
@@ -320,8 +310,6 @@
                 });
             }
 		};
-		Object.freeze(object);
-    	return object;
     }
 })();
 //
@@ -345,17 +333,14 @@ console.log(test2.getAllNumbers());
         createUsersStorage: createUsersStorage
 	});
     //Function
-    function newArrayCreate() {
-        return [];
-    }
-	function createUsersStorage() {
-        var newArray = newArrayCreate();
+    	function createUsersStorage() {
+        var newArray = [];
 
         var object = {
-            "addNewUser": function (firstName, lastName, birthDate, friends) {
+            "addNewUser": function (firstName, lastName, birthDate) {
                 //{firstName: "", lastName:"", birthDate: Date(), id: "", friends: ["id1", "id2",…"idN"]}
-                newArray[newArray.length] = {firstName: firstName, lastName: lastName, birthDate: birthDate, id: newArray.length, friends: friends};
-                return this;
+                newArray[newArray.length] = {firstName: firstName, lastName: lastName, birthDate: birthDate, id: new Date().getTime(), friends: []};
+                return this;//mistake in id
             },
             "removeUserById": function (id) {
             	if(!id){throw "incorrect id"}
@@ -403,7 +388,7 @@ console.log(test2.getAllNumbers());
 
 				//checking on id repeat
                 newArray.forEach(function (item, i, array) {
-					item["friends"].forEach(function (item, i, array) {if(array[i] === friendId){throw("this user already hav that friend")}})
+					item["friends"].forEach(function (item, i, array) {if(array[i] === friendId){throw("this user already has that friend")}})
                 });
 
                 newArray.forEach(function (item, i, array) {
