@@ -117,7 +117,72 @@ Bird.prototype.coverDistance = function(distance){
 //     };
 // }
 
-var chicken = new Bird("DOG", "chicken", 10, 20, true, 30);
+// Zoo prototype
+function Zoo(cagesAmount, birdCagesAmount) {
+    this._cagesAmount = cagesAmount;
+    this._birdCagesAmount = birdCagesAmount;
+    this._zoo = [];
+    this._zooTime = new Date();
+}
+Zoo.prototype = {
+    addAnimal : function (animal) {
+        if(Bird.prototype.isPrototypeOf(animal)){
+            if(this._birdCagesAmount) {
+                this._zoo.push(animal);
+                return this._birdCagesAmount--;
+            }else{
+                throw "not enough bird cages !"
+            }
+        }
+        else{
+            if(this._cagesAmount) {
+                this._zoo.push(animal);
+                return this._cagesAmount--;
+            }else{
+                throw "not enough animal cages !"
+            }
+        }
+    },
+    feedAnimal : function (animalName){
+        for(var i = 0; i < this._zoo.length; i++ ){
+            if(this._zoo[i]["_name"] === animalName){
+                this._zoo[i].feedingTime = new Date();
+            }
+        }
+    },
+    getHungryAnimals : function () {
+        var currentZooTime = this._zooTime.getHours();
+        var arrOfHungryAnimals = this._zoo.filter( function (item,i,arr){
+            if(item.feedingTime){
+                if (Math.abs(currentZooTime - item.feedingTime.getHours()) > 4) {
+                    return true;
+                }
+            }
+        });
+        return arrOfHungryAnimals;
+    },
+    setClockTime : function (hour, minute) {
+        this._zooTime.setHours(hour, minute);
+    }
+};
+
+// Zoo functional
+
+//
+
+
+
+var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
+var bird2 = new Bird("paroo", "parrot", 10, 20, true, 30);
+var bird3 = new Bird("chick", "chicken", 10, 20, true, 20);
+var bird4 = new Bird("peng", "penguin", 10, 20, false, 0);
+var chicken = new Bird("peng", "chicken", 10, 20, true, 30);
+
+var animal1 = new Animal("tom", "dog", 10, 15);
+var animal2 = new Animal("jery", "mouse", 1, 15);
+var animal3 = new Animal("leopold", "cat", 10, 1);
+
+//
 console.log(chicken.coverDistance);
 console.log(chicken.getName());
 console.log(chicken.getType());
@@ -132,28 +197,23 @@ console.log("fly speed", chicken.fly());
 console.log("time", chicken.coverDistance(500));
 //
 
+var firstZoo = new Zoo(2, 3);
+firstZoo.addAnimal(bird1);
+firstZoo.addAnimal(bird2);
+firstZoo.addAnimal(bird3);
+//firstZoo.addAnimal(bird4);
+firstZoo.addAnimal(animal1);
+firstZoo.addAnimal(animal2);
+//firstZoo.addAnimal(animal3);
 
-// Zoo prototype
-function Zoo(cagesAmount, birdCagesAmount) {
-    this._cagesAmount = cagesAmount;
-    this._birdCagesAmount = birdCagesAmount;
-}
-Zoo.prototype.addAnimal = function () {
+firstZoo.feedAnimal("tom");
+firstZoo.feedAnimal("coco");
 
-};
-// Zoo functional
+console.log(firstZoo);
 
+firstZoo.setClockTime(30, 30);
 
-
-
-
-
-
-
-
-
-
-
+console.log(firstZoo.getHungryAnimals());
 
 
 
