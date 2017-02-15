@@ -8,3 +8,19 @@
 .mainTitle .text {
 	vertical-align:middle;
 }
+.formContainer {
+    width: 300px;
+    margin: 0 auto;
+}
+.formContainer div {
+    padding: 5px 0;
+}
+.formContainer label, .formContainer input {
+    transition: all 0.5s ease-in-out;
+}
+.formContainer .invalid label {
+    color: red;
+}
+.formContainer .invalid input[type="text"]{
+    border-color: red;
+}

@@ -58,8 +58,7 @@ Animal.prototype = {
     }
 };
 
-//***//Home work
-
+/***//*Home work*/
 // Bird prototype
 //
 function Bird(name, type, weight, maxSpeed, canFly, maxFlySpeed) {
@@ -88,34 +87,6 @@ Bird.prototype.fly = function (newSpeed){
 Bird.prototype.coverDistance = function(distance){
     return (this.run() > this.fly() ? distance / parseFloat(this.run()): distance / parseFloat(this.fly())) + "sec";
 };
-//***//
-
-// Bird functional
-
-// function Bird(name, type, weight, maxSpeed, canFly, maxFlySpeed) {
-//     Animal.apply(this, arguments);
-//     var canFly = canFly;
-//     var maxFlySpeed = maxFlySpeed;
-//     var flySpeed = canFly ? maxFlySpeed : 0;
-//     this.fly = function (newSpeed){
-//         if(newSpeed !== undefined){
-//             if(!canFly){
-//                 throw ("this animal can't fly");
-//             }else if(newSpeed < 0) {
-//                 throw ("Speed below 0!");
-//             }else if(newSpeed > maxFlySpeed) {
-//                 throw("Speed above max fly speed!");
-//             }else {
-//                 return flySpeed = newSpeed;
-//             }
-//         }else{
-//             return flySpeed + "m/s";
-//         }
-//     };
-//     this.coverDistance = function (distance) {
-//         return (this.run() > this.fly() ? distance / parseFloat(this.run()): distance / parseFloat(this.fly())) + "sec";
-//     };
-// }
 
 // Zoo prototype
 function Zoo(cagesAmount, birdCagesAmount) {
@@ -151,25 +122,107 @@ Zoo.prototype = {
         }
     },
     getHungryAnimals : function () {
-        var currentZooTime = this._zooTime.getHours();
-        var arrOfHungryAnimals = this._zoo.filter( function (item,i,arr){
+        var currentZooTime = this._zooTime.getHours() + (Math.round(this._zooTime.getMinutes() * 100 / 60) / 100) ;
+        var names = [];
+        this._zoo.forEach( function (item){
             if(item.feedingTime){
-                if (Math.abs(currentZooTime - item.feedingTime.getHours()) > 4) {
-                    return true;
+                var itemFeddingTime = item.feedingTime.getHours() + (Math.round(item.feedingTime.getMinutes() * 100 / 60) / 100);
+                if(Math.abs(itemFeddingTime - currentZooTime) > 4) {
+                    names.push(item["_name"]);
                 }
+            }else{
+                names.push(item["_name"]);
             }
         });
-        return arrOfHungryAnimals;
+        return names;
     },
     setClockTime : function (hour, minute) {
         this._zooTime.setHours(hour, minute);
     }
 };
 
+
+
+// Bird functional
+// function Bird(name, type, weight, maxSpeed, canFly, maxFlySpeed) {
+//     Animal.apply(this, arguments);
+//     var canFly = canFly;
+//     var maxFlySpeed = maxFlySpeed;
+//     var flySpeed = canFly ? maxFlySpeed : 0;
+//     this.fly = function (newSpeed){
+//         if(newSpeed !== undefined){
+//             if(!canFly){
+//                 throw ("this animal can't fly");
+//             }else if(newSpeed < 0) {
+//                 throw ("Speed below 0!");
+//             }else if(newSpeed > maxFlySpeed) {
+//                 throw("Speed above max fly speed!");
+//             }else {
+//                 return flySpeed = newSpeed;
+//             }
+//         }else{
+//             return flySpeed + "m/s";
+//         }
+//     };
+//     this.coverDistance = function (distance) {
+//         return (this.run() > this.fly() ? distance / parseFloat(this.run()): distance / parseFloat(this.fly())) + "sec";
+//     };
+// }
 // Zoo functional
-
+// function Zoo(cagesAmount, birdCagesAmount) {
+//     var cagesAmount = cagesAmount;
+//     var birdCagesAmount = birdCagesAmount;
+//     var zoo = [];
+//     var zooTime = new Date();
 //
-
+//     this.test = function () {
+//       return [zooTime, zoo];
+//     };
+//
+//     this.addAnimal = function (animal) {
+//         if (Bird.prototype.isPrototypeOf(animal)) {
+//             if (birdCagesAmount) {
+//                 zoo.push(animal);
+//                 return birdCagesAmount--;
+//             } else {
+//                 throw "not enough bird cages !"
+//             }
+//         }
+//         else {
+//             if (cagesAmount) {
+//                 zoo.push(animal);
+//                 return cagesAmount--;
+//             } else {
+//                 throw "not enough animal cages !"
+//             }
+//         }
+//     };
+//     this.feedAnimal = function (animalName) {
+//         for (var i = 0; i < zoo.length; i++) {
+//             if (zoo[i].getName() === animalName) {
+//                 zoo[i].feedingTime = new Date();
+//             }
+//         }
+//     };
+//     this.getHungryAnimals = function () {
+//         var currentZooTime = zooTime.getHours() + (Math.round(zooTime.getMinutes() * 100 / 60) / 100);
+//         var names = [];
+//         zoo.forEach(function (item) {
+//             if (item.feedingTime) {
+//                 var itemFeddingTime = item.feedingTime.getHours() + (Math.round(item.feedingTime.getMinutes() * 100 / 60) / 100);
+//                 if (Math.abs(itemFeddingTime - currentZooTime) > 4) {
+//                     names.push(item.getName());
+//                 }
+//             } else {
+//                 names.push(item.getName());
+//             }
+//         });
+//         return names;
+//     };
+//     this.setClockTime = function (hour, minute) {
+//        zooTime.setHours(hour, minute);
+//     }
+// }
 
 
 var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
@@ -183,46 +236,72 @@ var animal2 = new Animal("jery", "mouse", 1, 15);
 var animal3 = new Animal("leopold", "cat", 10, 1);
 
 //
-console.log(chicken.coverDistance);
-console.log(chicken.getName());
-console.log(chicken.getType());
-chicken.setWeight(15);
-console.log(chicken.getWeight(15));
-chicken.run(10);
-console.log("run speed", chicken.run());
-
-chicken.fly(20);
-console.log("fly speed", chicken.fly());
-
-console.log("time", chicken.coverDistance(500));
+// console.log(chicken.getName());
+// console.log(chicken.getType());
+// chicken.setWeight(15);
+// console.log(chicken.getWeight(15));
+// chicken.run(10);
+// console.log("run speed", chicken.run());
 //
+// chicken.fly(20);
+// console.log("fly speed", chicken.fly());
+//
+// console.log("time", chicken.coverDistance(500));
+// //
+//
+// var firstZoo = new Zoo(2, 3);
+// firstZoo.addAnimal(bird1);
+// firstZoo.addAnimal(bird2);
+// firstZoo.addAnimal(bird3);
+// //firstZoo.addAnimal(bird4);
+// firstZoo.addAnimal(animal1);
+// firstZoo.addAnimal(animal2);
+// //firstZoo.addAnimal(animal3);
+// firstZoo.feedAnimal("tom");
+// firstZoo.feedAnimal("coco");
+//
+// console.log(firstZoo);
+//
+// firstZoo.setClockTime(20, 0);
+//
+// firstZoo.setClockTime(20, 0);
+// console.log(firstZoo.getHungryAnimals());
+//////////////////////////////////////////////
 
-var firstZoo = new Zoo(2, 3);
-firstZoo.addAnimal(bird1);
-firstZoo.addAnimal(bird2);
-firstZoo.addAnimal(bird3);
-//firstZoo.addAnimal(bird4);
-firstZoo.addAnimal(animal1);
-firstZoo.addAnimal(animal2);
-//firstZoo.addAnimal(animal3);
+/*jQuery*/
+$(function () {
+$("button:submit").on("click", validateAndSubmit);
 
-firstZoo.feedAnimal("tom");
-firstZoo.feedAnimal("coco");
+var submitObject = {};
+function validateAndSubmit() {
+    var name = $(":text:eq(0)");
+    var email = $(":text:eq(1)");
+    var phone = $(":text:eq(2)");
+    var radioStudent = $(":radio").eq(0);
+    var radioEmployee = $(":radio").eq(1);
+    var radioHead = $(":radio").eq(2);
 
-console.log(firstZoo);
+    if(!name.val()){
+        name.parents("div").addClass("invalid");
+        alert("Write your name!");
+    }else{
+        submitObject.name = name.val();
+        name.parent().removeClass("invalid");
+    }
 
-firstZoo.setClockTime(30, 30);
-
-console.log(firstZoo.getHungryAnimals());
-
-
-
-
-
-
+    if(radioStudent["0"].checked || radioEmployee["0"].checked || radioHead["0"].checked){
+        submitObject.name = name.val();
+        radioStudent.parents("div").removeClass("invalid");
+    }else {
+        radioStudent.parents("div").addClass("invalid");
+        alert("make a choice!");
+    }
 
 
+    return console.log([name, email, phone], radioStudent["0"].checked);
+}
 
+});
 
 
 
