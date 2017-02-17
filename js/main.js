@@ -270,42 +270,74 @@ var animal3 = new Animal("leopold", "cat", 10, 1);
 
 /*jQuery*/
 $(function () {
+    "use strict";
+
 $("button:submit").on("click", validateAndSubmit);
 
 var submitObject = {};
+
 function validateAndSubmit() {
-    var name = $(":text:eq(0)");
-    var email = $(":text:eq(1)");
-    var phone = $(":text:eq(2)");
-    var radioStudent = $(":radio").eq(0);
-    var radioEmployee = $(":radio").eq(1);
-    var radioHead = $(":radio").eq(2);
+    var inputText = $(":text");
 
-    if(!name.val()){
-        name.parents("div").addClass("invalid");
-        alert("Write your name!");
+    var inputRadio = $(":radio");
+
+    var checkbox = $(":checkbox");
+
+    (function validateNameEmailPhone() {
+        var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2}$/,
+            phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
+
+        if(!inputText.eq(0).val()){
+            delete submitObject.name;
+            inputText.eq(0).parents("div").addClass("invalid");
+            alert("Write your name!");
+        }else{
+            submitObject.name = inputText.eq(0).val();
+            inputText.eq(0).parents("div").removeClass("invalid");
+        }
+
+        if(!emailRegExp.test(inputText.eq(1).val())){
+            delete submitObject.email;
+            inputText.eq(1).parents("div").addClass("invalid");
+            alert("Write your email like this example: xxxx@xxxx.xx !");
+        }else{
+            inputText.eq(1).parents("div").removeClass("invalid");
+            submitObject.email = inputText.eq(1).val();
+        }
+
+        if(!phoneRegExp.test(inputText.eq(2).val())){
+            delete submitObject.phone;
+            inputText.eq(2).parents("div").addClass("invalid");
+            alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
+        }else{
+            inputText.eq(2).parents("div").removeClass("invalid");
+            submitObject.phone = inputText.eq(2).val();
+        }
+
+    })();
+
+    (function isRadio () {
+        for (var i = 0; i < inputRadio.length; i++) {
+            if (inputRadio.eq(i).prop("checked")) {
+                inputRadio.parents("div").removeClass("invalid");
+                return submitObject.type = inputRadio.eq(i).prop("value");
+            }
+        }
+        inputRadio.parents("div").addClass("invalid");
+        return alert("Are you? Make a choice between: student, employee, head");
+    })();
+
+    if(checkbox.prop("checked")){
+        submitObject.checkbox = true;
+        checkbox.parents("div").removeClass("invalid");
     }else{
-        submitObject.name = name.val();
-        name.parent().removeClass("invalid");
-    }
-
-    if(radioStudent["0"].checked || radioEmployee["0"].checked || radioHead["0"].checked){
-        submitObject.name = name.val();
-        radioStudent.parents("div").removeClass("invalid");
-    }else {
-        radioStudent.parents("div").addClass("invalid");
-        alert("make a choice!");
+        submitObject.checkbox = false;
+        checkbox.parents("div").addClass("invalid");
+        alert("Do you confirm our rules?");
     }
 
 
-    return console.log([name, email, phone], radioStudent["0"].checked);
+    return submitObject;
 }
 
 });
-
-
-
-
-
-
-
