@@ -27,120 +27,127 @@
 
 //prototype
 //
-function Animal(name, type, weight, maxSpeed){
-	this._name = name;
-    this._type = type;
-    this._weight = weight;
-    this._maxSpeed = maxSpeed;
-    this._speed = maxSpeed;
+function Animal(name, type, weight, maxSpeed) {
+  this._name = name;
+  this._type = type;
+  this._weight = weight;
+  this._maxSpeed = maxSpeed;
+  this._speed = maxSpeed;
 }
 
 Animal.prototype = {
-    getName : function() { return this._name; },
-    getType : function() { return this._type; },
-    getWeight : function() { return this._weight + "kg"; },
-    setWeight : function(weight) { return this._weight = weight; },
-    run : function (speed) {
-        if(speed !== undefined){
-            if(speed < 0){
-                throw("Speed below 0!");
-            }else if(speed > this._maxSpeed){
-                throw("Speed above max run speed!");
-            }else{
-                this._speed = speed;
-            }
-        }else{
-            return this._speed + "m/s";
-        }
-    },
-    coverDistance : function(distance){
-        return distance / parseFloat(this.run()) + "sec";
+  getName: function () {
+    return this._name;
+  },
+  getType: function () {
+    return this._type;
+  },
+  getWeight: function () {
+    return this._weight + "kg";
+  },
+  setWeight: function (weight) {
+    return this._weight = weight;
+  },
+  run: function (speed) {
+    if (speed !== undefined) {
+      if (speed < 0) {
+        throw("Speed below 0!");
+      } else if (speed > this._maxSpeed) {
+        throw("Speed above max run speed!");
+      } else {
+        this._speed = speed;
+      }
+    } else {
+      return this._speed + "m/s";
     }
+  },
+  coverDistance: function (distance) {
+    return distance / parseFloat(this.run()) + "sec";
+  }
 };
 
 /***//*Home work*/
 // Bird prototype
 //
 function Bird(name, type, weight, maxSpeed, canFly, maxFlySpeed) {
-    Animal.apply(this, arguments);
-    this._canFly = canFly;
-    this._maxFlySpeed = maxFlySpeed;
-    this._flySpeed = this._canFly ? this._maxFlySpeed : 0;
+  Animal.apply(this, arguments);
+  this._canFly = canFly;
+  this._maxFlySpeed = maxFlySpeed;
+  this._flySpeed = this._canFly ? this._maxFlySpeed : 0;
 }
 Bird.prototype = Object.create(Animal.prototype);
 
-Bird.prototype.fly = function (newSpeed){
-    if(newSpeed !== undefined){
-        if(!this._canFly){
-            throw ("this animal can't fly");
-        }else if(newSpeed < 0) {
-            throw ("Speed below 0!");
-        }else if(newSpeed > this._maxFlySpeed) {
-            throw("Speed above max fly speed!");
-        }else {
-            return this._flySpeed = newSpeed;
-        }
-    }else{
-        return this._flySpeed + "m/s";
+Bird.prototype.fly = function (newSpeed) {
+  if (newSpeed !== undefined) {
+    if (!this._canFly) {
+      throw ("this animal can't fly");
+    } else if (newSpeed < 0) {
+      throw ("Speed below 0!");
+    } else if (newSpeed > this._maxFlySpeed) {
+      throw("Speed above max fly speed!");
+    } else {
+      return this._flySpeed = newSpeed;
     }
+  } else {
+    return this._flySpeed + "m/s";
+  }
 };
-Bird.prototype.coverDistance = function(distance){
-    return (this.run() > this.fly() ? distance / parseFloat(this.run()): distance / parseFloat(this.fly())) + "sec";
+Bird.prototype.coverDistance = function (distance) {
+  return (this.run() > this.fly() ? distance / parseFloat(this.run()) : distance / parseFloat(this.fly())) + "sec";
 };
 
 // Zoo prototype
 function Zoo(cagesAmount, birdCagesAmount) {
-    this._cagesAmount = cagesAmount;
-    this._birdCagesAmount = birdCagesAmount;
-    this._zoo = [];
-    this._zooTime = new Date();
+  this._cagesAmount = cagesAmount;
+  this._birdCagesAmount = birdCagesAmount;
+  this._zoo = [];
+  this._zooTime = new Date();
 }
 Zoo.prototype = {
-    addAnimal : function (animal) {
-        if(Bird.prototype.isPrototypeOf(animal)){
-            if(this._birdCagesAmount) {
-                this._zoo.push(animal);
-                return this._birdCagesAmount--;
-            }else{
-                throw "not enough bird cages !"
-            }
-        }
-        else{
-            if(this._cagesAmount) {
-                this._zoo.push(animal);
-                return this._cagesAmount--;
-            }else{
-                throw "not enough animal cages !"
-            }
-        }
-    },
-    feedAnimal : function (animalName){
-        for(var i = 0; i < this._zoo.length; i++ ){
-            if(this._zoo[i]["_name"] === animalName){
-                this._zoo[i].feedingTime = new Date();
-            }
-        }
-    },
-    getHungryAnimals : function () {
-        var currentZooTime = this._zooTime.getHours() + (Math.round(this._zooTime.getMinutes() * 100 / 60) / 100) ;
-        var names = [];
-        this._zoo.forEach( function (item){
-            if(item.feedingTime){
-                var itemFeddingTime = item.feedingTime.getHours() + (Math.round(item.feedingTime.getMinutes() * 100 / 60) / 100);
-                if(Math.abs(itemFeddingTime - currentZooTime) > 4) {
-                    names.push(item["_name"]);
-                }
-            }else{
-                names.push(item["_name"]);
-            }
-        });
-        return names;
-    },
-    setClockTime : function (hour, minute) {
-        this._zooTime.setHours(hour, minute);
+  addAnimal: function (animal) {
+    if (Bird.prototype.isPrototypeOf(animal)) {
+      if (this._birdCagesAmount) {
+        this._zoo.push(animal);
+        return this._birdCagesAmount--;
+      } else {
+        throw "not enough bird cages !"
+      }
     }
+    else {
+      if (this._cagesAmount) {
+        this._zoo.push(animal);
+        return this._cagesAmount--;
+      } else {
+        throw "not enough animal cages !"
+      }
+    }
+  },
+  feedAnimal: function (animalName) {
+    for (var i = 0; i < this._zoo.length; i++) {
+      if (this._zoo[i]["_name"] === animalName) {
+        this._zoo[i].feedingTime = new Date();
+      }
+    }
+  },
+  getHungryAnimals: function () {
+    var currentZooTime = this._zooTime.getHours() + (Math.round(this._zooTime.getMinutes() * 100 / 60) / 100);
+    var names = [];
+    this._zoo.forEach(function (item) {
+      if (item.feedingTime) {
+        var itemFeddingTime = item.feedingTime.getHours() + (Math.round(item.feedingTime.getMinutes() * 100 / 60) / 100);
+        if (Math.abs(itemFeddingTime - currentZooTime) > 4) {
+          names.push(item["_name"]);
+        }
+      } else {
+        names.push(item["_name"]);
+      }
+    });
+    return names;
+  },
+  setClockTime: function (hour, minute) {
+    this._zooTime.setHours(hour, minute);
+  }
 };
-
 
 
 // Bird functional
@@ -270,13 +277,15 @@ var animal3 = new Animal("leopold", "cat", 10, 1);
 
 /*jQuery*/
 $(function () {
-    "use strict";
+  "use strict";
 
-$("button:submit").on("click", validateAndSubmit);
+  $("button:submit").on("click", validateAndSubmit);
+  //$(":text").on("change", );
 
-var submitObject = {};
 
-function validateAndSubmit() {
+  function validateAndSubmit() {
+    var submitObject = {};
+
     var inputText = $(":text");
 
     var inputRadio = $(":radio");
@@ -284,60 +293,63 @@ function validateAndSubmit() {
     var checkbox = $(":checkbox");
 
     (function validateNameEmailPhone() {
-        var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2}$/,
-            phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
+      var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2,3}$/,
+        phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
 
-        if(!inputText.eq(0).val()){
-            delete submitObject.name;
-            inputText.eq(0).parents("div").addClass("invalid");
-            alert("Write your name!");
-        }else{
-            submitObject.name = inputText.eq(0).val();
-            inputText.eq(0).parents("div").removeClass("invalid");
-        }
+      if (!inputText.eq(0).val()) {
+        delete submitObject.name;
+        inputText.eq(0).parents("div").addClass("invalid");
+        alert("Write your name!");
+      } else {
+        submitObject.name = inputText.eq(0).val();
+        inputText.eq(0).parents("div").removeClass("invalid");
+      }
 
-        if(!emailRegExp.test(inputText.eq(1).val())){
-            delete submitObject.email;
-            inputText.eq(1).parents("div").addClass("invalid");
-            alert("Write your email like this example: xxxx@xxxx.xx !");
-        }else{
-            inputText.eq(1).parents("div").removeClass("invalid");
-            submitObject.email = inputText.eq(1).val();
-        }
+      if (!emailRegExp.test(inputText.eq(1).val())) {
+        delete submitObject.email;
+        inputText.eq(1).parents("div").addClass("invalid");
+        alert("Write your email like this example: xxxx@xxxx.xx !");
+      } else {
+        inputText.eq(1).parents("div").removeClass("invalid");
+        submitObject.email = inputText.eq(1).val();
+      }
 
-        if(!phoneRegExp.test(inputText.eq(2).val())){
-            delete submitObject.phone;
-            inputText.eq(2).parents("div").addClass("invalid");
-            alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
-        }else{
-            inputText.eq(2).parents("div").removeClass("invalid");
-            submitObject.phone = inputText.eq(2).val();
-        }
+      if (!phoneRegExp.test(inputText.eq(2).val())) {
+        delete submitObject.phone;
+        inputText.eq(2).parents("div").addClass("invalid");
+        alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
+      } else {
+        inputText.eq(2).parents("div").removeClass("invalid");
+        submitObject.phone = inputText.eq(2).val();
+      }
 
     })();
 
-    (function isRadio () {
-        for (var i = 0; i < inputRadio.length; i++) {
-            if (inputRadio.eq(i).prop("checked")) {
-                inputRadio.parents("div").removeClass("invalid");
-                return submitObject.type = inputRadio.eq(i).prop("value");
-            }
+    (function isRadio() {
+      for (var i = 0; i < inputRadio.length; i++) {
+        if (inputRadio.eq(i).prop("checked")) {
+          inputRadio.parents("div").removeClass("invalid");
+          return submitObject.type = inputRadio.eq(i).prop("value");
         }
+      }
         inputRadio.parents("div").addClass("invalid");
-        return alert("Are you? Make a choice between: student, employee, head");
+        alert("Are you? Make a choice between: student, employee, head");
     })();
 
-    if(checkbox.prop("checked")){
+    (function isConfirm() {
+      if (checkbox.prop("checked")) {
         submitObject.checkbox = true;
         checkbox.parents("div").removeClass("invalid");
-    }else{
+      } else {
         submitObject.checkbox = false;
         checkbox.parents("div").addClass("invalid");
         alert("Do you confirm our rules?");
+      }
+    })();
+
+    if (submitObject.name && submitObject.email && submitObject.phone && submitObject.type && submitObject.checkbox){
+      console.log(submitObject);
     }
-
-
-    return submitObject;
-}
+  }
 
 });
