@@ -367,7 +367,7 @@ $(function () {
   inputRadio.on("change", validateRadio);
   checkbox.on("change", validateCheck);
   /**/
-
+  //Functions for on change
   function validateName() {
     if($(this).val()){
       $(this).parents("div").removeClass("invalid");
@@ -414,7 +414,6 @@ $(function () {
         return true;
       }
       $(this).parents("div").addClass("invalid");
-      $(".radio").css("display", "block");
     }
   }
 
@@ -427,8 +426,8 @@ $(function () {
       $(".check").css("display", "block");
     }
   }
-  /*submit and console.log object */
 
+  /*submit and console.log object */
   $("button:submit").on("click", validateAndSubmit);
 
   function validateAndSubmit() {
