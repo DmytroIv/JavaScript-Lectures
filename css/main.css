@@ -1,10 +1,26 @@
 .mainTitle {
-	text-align:center;
+  text-align: center;
+  position: relative;
+  top: 0;
+  min-width: 120%;
 }
+
 .mainTitle .logo {
-	width:100px;
-	vertical-align:middle;
+  width: 100px;
+  margin: 8px;
+  padding: 10px;
+  border: 5px solid black;
+  vertical-align: middle;
+  box-shadow: 0 0 15px inset;
+
+
 }
+
 .mainTitle .text {
-	vertical-align:middle;
+  vertical-align: middle;
+}
+
+.formContainer {
+  width: 300px;
+  margin: 0 auto;
 }

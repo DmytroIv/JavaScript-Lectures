@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Base template</title>
+		<title>Lecture 15</title>
 		<link type="text/css" rel="stylesheet" media="all" href="css/main.css" />
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script src="js/main.js" defer></script>
@@ -9,8 +9,29 @@
 	<body>
 		<!-- This is base template for testing -->
 		<h1 class="mainTitle">
-			<img class="logo" src="images/logo.png" alt=""/>
-			<span class="text">Base template</span>
+			<a href="#" ><img class="logo" src="images/logo.png" alt=""/></a>
+			<span class="text">Lecture 15</span>
 		</h1>
+
+    <div class="formContainer" data-test="test value" data-test2="test value 2">
+      <div class="">
+        <label>Name <input type="text" /></label>
+      </div>
+      <div class="">
+        <label>Email <input type="text" name="email" data-required-error="This field id required" data-="" /></label>
+      </div>
+      <div class="">
+        <label>Phone <input type="text" /></label>
+      </div>
+      <div class="">
+        <label><input type="radio" name="userType" value="student" />Student</label><br>
+        <label><input type="radio" name="userType" value="employee" />Employee</label><br>
+        <label><input type="radio" name="userType" value="head" />Head</label>
+      </div>
+      <div class="">
+        <label><input type="checkbox" />Confirm our rules</label>
+      </div>
+      <button type="submit">Submit</button>
+    </div>
 	</body>
 </html>
