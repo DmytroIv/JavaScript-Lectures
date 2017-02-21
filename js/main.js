@@ -93,7 +93,7 @@ Bird.prototype.fly = function (newSpeed) {
   }
 };
 Bird.prototype.coverDistance = function (distance) {
-  return (this.run() > this.fly() ? distance / parseFloat(this.run()) : distance / parseFloat(this.fly())) + "sec";
+  return (this._speed > this._flySpeed  ? distance / parseFloat(this.run()) : distance / parseFloat(this.fly())) + "sec";
 };
 
 // Zoo prototype
@@ -231,30 +231,30 @@ Zoo.prototype = {
 //     }
 // }
 
-// var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
-// var bird2 = new Bird("paroo", "parrot", 10, 20, true, 30);
-// var bird3 = new Bird("chick", "chicken", 10, 20, true, 20);
-// var bird4 = new Bird("peng", "penguin", 10, 20, false, 0);
-// var chicken = new Bird("peng", "chicken", 10, 20, true, 30);
-//
-// var animal1 = new Animal("tom", "dog", 10, 15);
-// var animal2 = new Animal("jery", "mouse", 1, 15);
-// var animal3 = new Animal("leopold", "cat", 10, 1);
+var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
+var bird2 = new Bird("paroo", "parrot", 10, 20, true, 30);
+var bird3 = new Bird("chick", "chicken", 10, 20, true, 20);
+var bird4 = new Bird("peng", "penguin", 10, 20, false, 0);
+var chicken = new Bird("wk", "sparrow", 0.03, 0.3, false, 10);
 
-//
+var animal1 = new Animal("tom", "dog", 10, 15);
+var animal2 = new Animal("jery", "mouse", 1, 15);
+var animal3 = new Animal("leopold", "cat", 10, 1);
+
+
 // console.log(chicken.getName());
 // console.log(chicken.getType());
 // chicken.setWeight(15);
 // console.log(chicken.getWeight(15));
-// chicken.run(10);
-// console.log("run speed", chicken.run());
-//
-// chicken.fly(20);
-// console.log("fly speed", chicken.fly());
-//
-// console.log("time", chicken.coverDistance(500));
+// chicken.run();
+//console.log("run speed", chicken.run());
+
+//chicken.fly(4);
+//console.log("fly speed", chicken.fly());
+
+// console.log("time", chicken.coverDistance(10));
 // //
-//
+
 // var firstZoo = new Zoo(2, 3);
 // firstZoo.addAnimal(bird1);
 // firstZoo.addAnimal(bird2);
@@ -265,12 +265,12 @@ Zoo.prototype = {
 // //firstZoo.addAnimal(animal3);
 // firstZoo.feedAnimal("tom");
 // firstZoo.feedAnimal("coco");
-//
+
 // console.log(firstZoo);
-//
-// firstZoo.setClockTime(20, 0);
-//
-// firstZoo.setClockTime(20, 0);
+
+// firstZoo.setClockTime(30, 10);
+
+// //firstZoo.setClockTime(20, 0);
 // console.log(firstZoo.getHungryAnimals());
 //////////////////////////////////////////////
 
