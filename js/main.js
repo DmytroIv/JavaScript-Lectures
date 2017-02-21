@@ -231,16 +231,15 @@ Zoo.prototype = {
 //     }
 // }
 
-
-var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
-var bird2 = new Bird("paroo", "parrot", 10, 20, true, 30);
-var bird3 = new Bird("chick", "chicken", 10, 20, true, 20);
-var bird4 = new Bird("peng", "penguin", 10, 20, false, 0);
-var chicken = new Bird("peng", "chicken", 10, 20, true, 30);
-
-var animal1 = new Animal("tom", "dog", 10, 15);
-var animal2 = new Animal("jery", "mouse", 1, 15);
-var animal3 = new Animal("leopold", "cat", 10, 1);
+// var bird1 = new Bird("coco", "parrot", 10, 20, true, 30);
+// var bird2 = new Bird("paroo", "parrot", 10, 20, true, 30);
+// var bird3 = new Bird("chick", "chicken", 10, 20, true, 20);
+// var bird4 = new Bird("peng", "penguin", 10, 20, false, 0);
+// var chicken = new Bird("peng", "chicken", 10, 20, true, 30);
+//
+// var animal1 = new Animal("tom", "dog", 10, 15);
+// var animal2 = new Animal("jery", "mouse", 1, 15);
+// var animal3 = new Animal("leopold", "cat", 10, 1);
 
 //
 // console.log(chicken.getName());
@@ -279,151 +278,224 @@ var animal3 = new Animal("leopold", "cat", 10, 1);
 $(function () {
   "use strict";
 
-  $("button:submit").on("click", validateAndSubmit);
+ //  $("button:submit").on("click", validateAndSubmit);
+ //
+ // function validateAndSubmit() {
+ //    var submitObject = {};
+ //
+ //    var inputText = $(":text");
+ //
+ //    var inputRadio = $(":radio");
+ //
+ //    var checkbox = $(":checkbox");
+ //
+ //    (function validateNameEmailPhone() {
+ //      var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2,3}$/,
+ //        phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
+ //
+ //      if (!inputText.eq(0).val()) {
+ //        delete submitObject.name;
+ //        inputText.eq(0).parents("div").addClass("invalid");
+ //        alert("Write your name!");
+ //      } else {
+ //        submitObject.name = inputText.eq(0).val();
+ //        inputText.eq(0).parents("div").removeClass("invalid");
+ //      }
+ //
+ //      if (!emailRegExp.test(inputText.eq(1).val())) {
+ //        delete submitObject.email;
+ //        inputText.eq(1).parents("div").addClass("invalid");
+ //        alert("Write your email like this example: xxxx@xxxx.xx !");
+ //      } else {
+ //        inputText.eq(1).parents("div").removeClass("invalid");
+ //        submitObject.email = inputText.eq(1).val();
+ //      }
+ //
+ //      if (!phoneRegExp.test(inputText.eq(2).val())) {
+ //        delete submitObject.phone;
+ //        inputText.eq(2).parents("div").addClass("invalid");
+ //        alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
+ //      } else {
+ //        inputText.eq(2).parents("div").removeClass("invalid");
+ //        submitObject.phone = inputText.eq(2).val();
+ //      }
+ //
+ //    })();
+ //
+ //    (function isRadio() {
+ //      for (var i = 0; i < inputRadio.length; i++) {
+ //        if (inputRadio.eq(i).prop("checked")) {
+ //          inputRadio.parents("div").removeClass("invalid");
+ //          return submitObject.type = inputRadio.eq(i).prop("value");
+ //        }
+ //      }
+ //        inputRadio.parents("div").addClass("invalid");
+ //        alert("Are you? Make a choice between: student, employee, head");
+ //    })();
+ //
+ //    (function isConfirm() {
+ //      if (checkbox.prop("checked")) {
+ //        submitObject.checkbox = true;
+ //        checkbox.parents("div").removeClass("invalid");
+ //      } else {
+ //        submitObject.checkbox = false;
+ //        checkbox.parents("div").addClass("invalid");
+ //        alert("Do you confirm our rules?");
+ //      }
+ //    })();
+ //
+ //    if (submitObject.name && submitObject.email && submitObject.phone && submitObject.type && submitObject.checkbox){
+ //      alert("Success!");
+ //      return console.log(submitObject);
+ //    }
+ //  }
+/////////////////////////////////////////////////////////////////////
 
 
-  $(".formContainer").on("change", validateAndSubmit);
+  var inputRadio = $("input:radio");
+  var checkbox = $(":checkbox");
 
-  /*function validateAndSubmit() {
-    var submitObject = {};
+  var inputText = $(":text");
+  var inputTextName = inputText.eq(0);
+  var inputTextEmail = inputText.eq(1);
+  var inputTextPhone = inputText.eq(2);
 
-    var inputText = $(":text");
+  /*check on valid */
+  inputTextName.on("change", validateName);
+  inputTextEmail.on("change", validateEmail);
+  inputTextPhone.on("change", validatePhone);
+  inputRadio.on("change", validateRadio);
+  checkbox.on("change", validateCheck);
+  /**/
 
-    var inputRadio = $(":radio");
-
-    var checkbox = $(":checkbox");
-
-    (function validateNameEmailPhone() {
-      var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2,3}$/,
-        phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
-
-      if (!inputText.eq(0).val()) {
-        delete submitObject.name;
-        inputText.eq(0).parents("div").addClass("invalid");
-        alert("Write your name!");
-      } else {
-        submitObject.name = inputText.eq(0).val();
-        inputText.eq(0).parents("div").removeClass("invalid");
-      }
-
-      if (!emailRegExp.test(inputText.eq(1).val())) {
-        delete submitObject.email;
-        inputText.eq(1).parents("div").addClass("invalid");
-        alert("Write your email like this example: xxxx@xxxx.xx !");
-      } else {
-        inputText.eq(1).parents("div").removeClass("invalid");
-        submitObject.email = inputText.eq(1).val();
-      }
-
-      if (!phoneRegExp.test(inputText.eq(2).val())) {
-        delete submitObject.phone;
-        inputText.eq(2).parents("div").addClass("invalid");
-        alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
-      } else {
-        inputText.eq(2).parents("div").removeClass("invalid");
-        submitObject.phone = inputText.eq(2).val();
-      }
-
-    })();
-
-    (function isRadio() {
-      for (var i = 0; i < inputRadio.length; i++) {
-        if (inputRadio.eq(i).prop("checked")) {
-          inputRadio.parents("div").removeClass("invalid");
-          return submitObject.type = inputRadio.eq(i).prop("value");
-        }
-      }
-        inputRadio.parents("div").addClass("invalid");
-        alert("Are you? Make a choice between: student, employee, head");
-    })();
-
-    (function isConfirm() {
-      if (checkbox.prop("checked")) {
-        submitObject.checkbox = true;
-        checkbox.parents("div").removeClass("invalid");
-      } else {
-        submitObject.checkbox = false;
-        checkbox.parents("div").addClass("invalid");
-        alert("Do you confirm our rules?");
-      }
-    })();
-
-    if (submitObject.name && submitObject.email && submitObject.phone && submitObject.type && submitObject.checkbox){
-      alert("Success!");
-      return console.log(submitObject);
+  function validateName() {
+    if($(this).val()){
+      $(this).parents("div").removeClass("invalid");
+      $(".name").css("display", "none");
+    }else {
+      $(this).parents("div").addClass("invalid");
+      $(".name").css("display", "block");
     }
-  }*/
+  }
+
+  function validateEmail() {
+    var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2,3}$/;
+    if($(this).val()){
+      if(emailRegExp.test($(this).val())){
+        $(this).parents("div").removeClass("invalid");
+        $(".email").css("display", "none");
+      }else {
+        $(this).parents("div").addClass("invalid");
+        $(".email").css("display", "block");
+      }
+    }
+    return emailRegExp;
+  }
+
+  function validatePhone() {
+    var phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
+    if($(this).val()){
+      if(phoneRegExp.test($(this).val())){
+        $(this).parents("div").removeClass("invalid");
+        $(".phone").css("display", "none");
+      }else {
+        $(this).parents("div").addClass("invalid");
+        $(".phone").css("display", "block");
+      }
+    }
+    return phoneRegExp;
+  }
+
+  function validateRadio() {
+    for (var i = 0; i < $(this).length; i++) {
+      if ($(this).eq(i).prop("checked")) {
+        $(this).parents("div").removeClass("invalid");
+        $(".radio").css("display", "none");
+        return true;
+      }
+      $(this).parents("div").addClass("invalid");
+      $(".radio").css("display", "block");
+    }
+  }
+
+  function validateCheck() {
+    if (checkbox.prop("checked")) {
+      checkbox.parents("div").removeClass("invalid");
+      $(".check").css("display", "none");
+    } else {
+      checkbox.parents("div").addClass("invalid");
+      $(".check").css("display", "block");
+    }
+  }
+  /*submit and console.log object */
+
+  $("button:submit").on("click", validateAndSubmit);
 
   function validateAndSubmit() {
     var submitObject = {};
 
-    var inputText = $(":text");
-
-    var inputRadio = $(":radio");
-
-    var checkbox = $(":checkbox");
-
-    (function validateNameEmailPhone() {
-      var emailRegExp = /^[^<>()[\]\\.,;:\s@\"]{1,}\@{1}[a-zA-z\d]{4}\.{1}[a-z]{2,3}$/,
-        phoneRegExp = /^\+?(\d{1,2})[(]{1}(\d{3})[)]{1}(\d{3}[-]?\d{2}[-]?\d{2})$/;
-
-      if (!inputText.eq(0).val()) {
-        delete submitObject.name;
-        inputText.eq(0).parents("div").addClass("invalid");
-        // alert("Write your name!");
-      } else {
-        submitObject.name = inputText.eq(0).val();
-        inputText.eq(0).parents("div").removeClass("invalid");
-      }
-
-      if (!emailRegExp.test(inputText.eq(1).val())) {
-        delete submitObject.email;
-        inputText.eq(1).parents("div").addClass("invalid");
-        // alert("Write your email like this example: xxxx@xxxx.xx !");
-      } else {
-        inputText.eq(1).parents("div").removeClass("invalid");
-        submitObject.email = inputText.eq(1).val();
-      }
-
-      if (!phoneRegExp.test(inputText.eq(2).val())) {
-        delete submitObject.phone;
-        inputText.eq(2).parents("div").addClass("invalid");
-        // alert("Write your phone like this example: +xx(xxx)xxx-xx-xx !");
-      } else {
-        inputText.eq(2).parents("div").removeClass("invalid");
-        submitObject.phone = inputText.eq(2).val();
-      }
-
-    })();
-
-    (function isRadio() {
-      for (var i = 0; i < inputRadio.length; i++) {
-        if (inputRadio.eq(i).prop("checked")) {
-          inputRadio.parents("div").removeClass("invalid");
-          return submitObject.type = inputRadio.eq(i).prop("value");
-        }
-      }
-        inputRadio.parents("div").addClass("invalid");
-        // alert("Are you? Make a choice between: student, employee, head");
-    })();
-
-    (function isConfirm() {
-      if (checkbox.prop("checked")) {
-        submitObject.checkbox = true;
-        checkbox.parents("div").removeClass("invalid");
-      } else {
-        submitObject.checkbox = false;
-        checkbox.parents("div").addClass("invalid");
-        // alert("Do you confirm our rules?");
-      }
-    })();
-
-    // if (submitObject.name && submitObject.email && submitObject.phone && submitObject.type && submitObject.checkbox){
-      // return console.log(submitObject);
-      $(":submit").on("click", function(){
-        if (submitObject.name && submitObject.email && submitObject.phone && submitObject.type && submitObject.checkbox)
-        return console.log(submitObject)});
+    if(!inputTextName.val()){
+      inputTextName.parents("div").addClass("invalid");
+      $(".name").css("display", "block");
+    }else{
+      submitObject.name = inputTextName.val();
     }
-  //}
+
+    if(!inputTextEmail.val()){
+      inputTextEmail.parents("div").addClass("invalid");
+      $(".email").css("display", "block");
+    }else if(validateEmail().test(inputTextEmail.val())){
+      submitObject.email = inputTextEmail.val();
+    }
+
+    if(!inputTextPhone.val()){
+      inputTextPhone.parents("div").addClass("invalid");
+      $(".phone").css("display", "block");
+    }else if(validatePhone().test(inputTextPhone.val())){
+      submitObject.phone = inputTextPhone.val();
+    }
+
+    for (var i = 0; i < inputRadio.length; i++) {
+      if (inputRadio.eq(i).prop("checked")) {
+        inputRadio.parents("div").removeClass("invalid");
+        submitObject.type = inputRadio.eq(i).prop("value");
+        $(".radio").css("display", "none");
+        break;
+      }
+      inputRadio.parents("div").addClass("invalid");
+      $(".radio").css("display", "block");
+    }
+
+    if (!checkbox.prop("checked")) {
+      delete submitObject.checkbox;
+      checkbox.parents("div").addClass("invalid");
+      $(".check").css("display", "block");
+      return false;
+    }else{
+      submitObject.checkbox = true;
+    }
+
+    if(!$(".invalid").length){
+      console.log(submitObject);
+    }
+
+  }
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

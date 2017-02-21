@@ -9,27 +9,35 @@
 <body>
 <!-- This is base template for testing -->
 <h1 class="mainTitle">
-  <img class="logo" src="images/logo.png" alt=""/>
+  <img class="logo" src="images/logo.png" alt="" />
   <span class="text">Lecture 14</span>
 </h1>
 
 <div class="formContainer">
-  <div class="">
-    <label>Name <input type="text"/></label>
+  <div class="success">Success!</div>
+  <div class="error">
+    <span class="name">Name is required</span>
+    <span class="email">Email is required (example xxx@xxxx.xx)</span>
+    <span class="phone">Phone is required (example 12(345)678-90-12)</span>
+    <span class="radio">Required to take one of student|employee|head</span>
+    <span class="check">Required confirm our rules</span>
   </div>
   <div class="">
-    <label>Email <input type="text"/></label>
+    <label>Name <input type="text" /></label>
   </div>
   <div class="">
-    <label>Phone <input type="text"/></label>
+    <label>Email <input type="text" /></label>
   </div>
   <div class="">
-    <label><input type="radio" name="userType" value="student"/>Student</label><br>
-    <label><input type="radio" name="userType" value="employee"/>Employee</label><br>
-    <label><input type="radio" name="userType" value="head"/>Head</label>
+    <label>Phone <input type="text" /></label>
   </div>
   <div class="">
-    <label><input type="checkbox"> Confirm our rules</label>
+    <label><input type="radio" name="userType" value="student" />Student</label><br>
+    <label><input type="radio" name="userType" value="employee" />Employee</label><br>
+    <label><input type="radio" name="userType" value="head" />Head</label>
+  </div>
+  <div class="">
+    <label><input type="checkbox" />Confirm our rules</label>
   </div>
   <button type="submit">Submit</button>
 </div>
