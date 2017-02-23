@@ -169,3 +169,21 @@ var $test = $(".jqueryTestContainer");
 //$("ul", $test).clone().replaceAll($("h5", $test));
 
 ///////////////////////////////////
+//
+//$("li, span", $test).each(function(index, element){
+//  console.log(index, element);
+//});
+//
+//console.log("index", $("li").index());
+//console.log("index", $("li").eq(1).index());
+//console.log("index", $("li.third").index());
+//console.log("index", $("li.first").index());
+//console.log("index", $("li.second").index());
+
+//console.log("index", $("h5").index());
+//console.log("index", $("nav").index()); //-1
+
+
+
+
+
