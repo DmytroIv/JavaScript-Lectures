@@ -8,3 +8,14 @@
 .mainTitle .text {
 	vertical-align:middle;
 }
+.formContainer {
+	width: 300px;
+	margin: 0 auto;
+}
+
+.jqueryTestContainer {
+	width:50%;
+	font-size: 30px;
+	margin: 0 auto;
+	background: #dfdfdf;
+}
