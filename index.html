@@ -1,16 +1,65 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Base template</title>
+		<title>Lecture 17</title>
 		<link type="text/css" rel="stylesheet" media="all" href="css/main.css" />
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="js/main.js" defer></script>
 	</head>
 	<body>
 		<!-- This is base template for testing -->
 		<h1 class="mainTitle">
 			<img class="logo" src="images/logo.png" alt=""/>
-			<span class="text">Base template</span>
+			<span class="text">Lecture 17 TODO list</span>
 		</h1>
 	</body>
+
+  <div class="todo-list">
+    <div class="usersManagement">
+      <div class="addUser">
+        <input type="text" placeholder="User name" />
+        <input type="text" placeholder="User email" />
+        <input type="button" value="Add user" />
+      </div>
+
+      <ul class="users">
+        <!--<li>
+          <p class="userName">Vasd</p>
+          <p class="userEmail">asd@asdf.sad</p>
+          <label for=""> Assigned <input type="checkbox" /></label>
+          <button type="button">Delete user</button>
+        </li>-->
+      </ul>
+    </div>
+
+    <div class="taskManagement">
+      <div class="addTask">
+        <input type="text" placeholder="Task title" />
+        <textarea name="" id="" placeholder="Task description"></textarea>
+        <input type="text" placeholder="Task ID" />
+        <input type="button" value="Add task" />
+      </div>
+
+      <ul>
+        <!--<li>
+          <h2 class="taskTitle"></h2>
+          <p>Create data
+            <span class="createData">
+              data/month/year hours:minutes
+            </span>
+            <p class="taskDescription"></p>
+            <p>Assigned to <span></span>users</p>
+          </p>
+          <div class="">
+            <button type="button">Move top</button>
+            <button type="button">Move bottom</button>
+            <button type="button">Delete task</button>
+          </div>
+          <button type="button" class="complete">Complete task</button>
+        </li>-->
+      </ul>
+    </div>
+  </div>
+
+
 </html>
