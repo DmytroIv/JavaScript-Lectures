@@ -8,7 +8,6 @@
 .mainTitle .text {
 	vertical-align:middle;
 }
-
 .todo-list {
   overflow: hidden;
   width: 70%;
@@ -48,9 +47,15 @@
   border: 2px solid #ccc;
 }
 .todo-list .users label {
+  width: 80px;
   display: block;
   padding: 0 0 5px;
 }
 .todo-list .complete {
   margin: 5px 0 0;
 }
+.todo-list button { margin-right: 5px; }
+/**/
+
+.active { background: #616161; }
+.taskDone { background: #090; }
