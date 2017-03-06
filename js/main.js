@@ -79,6 +79,12 @@ function generateUsersList() {
   usersList = [];
   users.forEach(function (user, index) {
     usersList[index] = generateUser(user);
+    for(var i = 0; i < tasks.length; i++){
+      if (user.assignedTo.includes(tasks[i].taskID) && ~$tasksContainer.find(".active").index()){
+        usersList[index].find("input").prop("checked", true);
+        break;
+      }
+    }
   });
   $usersContainer.html(usersList);
 }
@@ -87,13 +93,19 @@ function generateUser(user) {
   var li = $('<li />').data("user", user);
   var userName = $('<p class="userName">' + user.name + '</p>');
   var userEmail = $('<p class="userEmail">' + user.email + '</p>');
-  var assignedLable = $('<label>Assigned</label>');
-  var assignedCheckbox = $('<input type="checkbox" />').prop("checked", user.checkBox).appendTo(assignedLable);
+  var assignedLabel = $('<label>Assigned</label>');
+  var assignedCheckbox = $('<input type="checkbox" />').appendTo(assignedLabel)
+    .on("change", function(){
+      $(".todo-list").on("change", function(){
+        assigningUserToTask(users, user, generateUsersList);
+      });
+      //assigningUserToTask(users, user, generateUsersList);
+    });
   var button = $('<button type="button">Delete user</button>')
     .on("click", function () {
       removeItem(users, user, generateUsersList);
     });
-  return li.append([userName, userEmail, assignedLable, button]);
+  return li.append([userName, userEmail, assignedLabel, button]);
 }
 
 function removeItem(list, item, callback) {
@@ -103,6 +115,18 @@ function removeItem(list, item, callback) {
     callback();
   }
 }
+//at home
+function assigningUserToTask(list, item, callback){
+  var index = list.indexOf(item);
+  var taskIndex =  $tasksContainer.find("li.active").index();
+  if(~taskIndex && ~index && !item.assignedTo.includes(tasks[taskIndex].taskID)){
+    item.assignedTo.push(tasks[taskIndex].taskID);
+  }else if(~taskIndex && ~index){
+    item.assignedTo.splice(item.assignedTo.indexOf(tasks[taskIndex].taskID), 1);
+  }
+  callback();
+}
+
 
 //Home work -----------------------------------------------------------------------------
 //task add function
@@ -133,7 +157,6 @@ function addTaskFunctionality() {
         "taskID": $taskIDField.val(),
         "taskDone": false,
         "taskCreateTime": new Date().getDate() + "," + (new Date().getMonth() + 1) + "," + new Date().getFullYear() + "  " + new Date().toTimeString().slice(0, 8),
-        "usersCounter": 0,
         assignedWith: []
       });
       generateTasksList();
@@ -155,13 +178,6 @@ function generateTasksList() {
       tasksList[index].addClass("taskDone");
       tasksList[index].find(".complete").prop("disabled", true);
     }
-    // if(task.active){
-    //   tasksList[index].toggleClass("active");
-    //   task.active = false;
-    //   tasksList.forEach(function(item, i){
-    //     if(i !== index){ item.removeClass("active"); }
-    //   });
-    // }
   });
   $tasksContainer.html(tasksList);
 }
@@ -200,25 +216,16 @@ function generateTask(task) {
     if(!$li.hasClass("active") && !$li.hasClass("taskDone")){
       $tasksContainer.children(".active").removeClass("active");
       $li.addClass("active");
-      // $li.index();
-      if(~$usersContainer.find(":checked").index()){
-
-        users[$usersContainer.find(":checked").parents("li").index()].assignedTo.push(task.taskID);
-        console.log(users);
-      }
     }
-    else if(!$li.hasClass("taskDone")) {
+    else {
       $li.removeClass("active");
     }
-    //var $li = $(this);
-    //tasks[$li.index()].active = true;
-    //assigningUserToTask(tasks, task, generateTasksList);
   });
   var taskTitle = $('<h2 class="taskTitle">' + task.taskTitle + '</h2>');
   var createData = $('<p class="createData">' + task.taskCreateTime + '</p>');
   var taskDescription = $('<p class="taskDescription">' + task.taskDescription + '</p>');
   var assigned = $('<p>Assigned to </p>');
-  var assignedCounter= $('<span>' + task.usersCounter + '</span>').after(" users").appendTo(assigned);
+  var assignedCounter= $('<span>' + task.assignedWith.length + '</span>').after(" users").appendTo(assigned);
   var buttonWrapper = $('<div />').on("click", false);
   var buttonMoveTop = $('<button type="button">Move top</button>')
     .on("click", function () {
@@ -245,18 +252,6 @@ function generateTask(task) {
 }
 //
 
-function assigningUserToTask(list, item, callback){
-  var index = list.indexOf(item);
-  if(~index) {
-    if(1){
-      var a = $usersContainer.find(":checked").parents("li").index();
-      console.log(a, users[a]);
-    }
-  }else if(1){
-
-  }
-  callback();
-}
 
 
 
