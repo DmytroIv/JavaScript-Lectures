@@ -7,7 +7,6 @@ var tasksList = [];
 var $usersContainer = $(".users");
 var $tasksContainer = $(".tasks");
 
-
 (function activate() {
   addUserFunctionality();
   addTaskFunctionality();
@@ -79,10 +78,9 @@ function generateUsersList() {
   usersList = [];
   users.forEach(function (user, index) {
     usersList[index] = generateUser(user);
-    for(var i = 0; i < tasks.length; i++){
-      if (user.assignedTo.includes(tasks[i].taskID) && ~$tasksContainer.find(".active").index()){
+    if(~$tasksContainer.find(".active").index()) {
+      if (user.assignedTo.includes(tasks[$tasksContainer.find(".active").index()].taskID)) {
         usersList[index].find("input").prop("checked", true);
-        break;
       }
     }
   });
@@ -94,13 +92,24 @@ function generateUser(user) {
   var userName = $('<p class="userName">' + user.name + '</p>');
   var userEmail = $('<p class="userEmail">' + user.email + '</p>');
   var assignedLabel = $('<label>Assigned</label>');
-  var assignedCheckbox = $('<input type="checkbox" />').appendTo(assignedLabel)
-    .on("change", function(){
-      $(".todo-list").on("change", function(){
-        assigningUserToTask(users, user, generateUsersList);
-      });
-      //assigningUserToTask(users, user, generateUsersList);
-    });
+  //////////////////////////////////////////////////////nod good cod decision///////////////////////////////////////////
+  var assignedCheckbox = $('<input type="checkbox" />').prop("checked", false).appendTo(assignedLabel).on("click", function(){
+    if(~$tasksContainer.find(".active").index()){
+      var userLiIndex = $(this).parents("li").index();
+      var taskLiIndex = $tasksContainer.find(".active").index();
+      if(!users[userLiIndex].assignedTo.includes(tasks[taskLiIndex].taskID)){
+        users[userLiIndex].assignedTo.push(tasks[taskLiIndex].taskID);
+        tasks[taskLiIndex].assignedWith.push(users[userLiIndex].email);
+      }else{
+        var indexOfDeleteElemFromUserList = users[userLiIndex].assignedTo.indexOf(tasks[taskLiIndex].taskID);
+        var indexOfDeleteElemFromTaskList = tasks[taskLiIndex].assignedWith.indexOf(users[userLiIndex].email);
+        users[userLiIndex].assignedTo.splice(indexOfDeleteElemFromUserList, 1);
+        tasks[taskLiIndex].assignedWith.splice(indexOfDeleteElemFromTaskList, 1);
+      }
+    }
+    // generateTasksList();
+  });
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   var button = $('<button type="button">Delete user</button>')
     .on("click", function () {
       removeItem(users, user, generateUsersList);
@@ -118,11 +127,10 @@ function removeItem(list, item, callback) {
 //at home
 function assigningUserToTask(list, item, callback){
   var index = list.indexOf(item);
-  var taskIndex =  $tasksContainer.find("li.active").index();
-  if(~taskIndex && ~index && !item.assignedTo.includes(tasks[taskIndex].taskID)){
-    item.assignedTo.push(tasks[taskIndex].taskID);
-  }else if(~taskIndex && ~index){
-    item.assignedTo.splice(item.assignedTo.indexOf(tasks[taskIndex].taskID), 1);
+  if(~index){
+
+  }else{
+
   }
   callback();
 }
@@ -157,7 +165,7 @@ function addTaskFunctionality() {
         "taskID": $taskIDField.val(),
         "taskDone": false,
         "taskCreateTime": new Date().getDate() + "," + (new Date().getMonth() + 1) + "," + new Date().getFullYear() + "  " + new Date().toTimeString().slice(0, 8),
-        assignedWith: []
+        "assignedWith": []
       });
       generateTasksList();
       $taskTitleField.val("");
@@ -211,21 +219,24 @@ function completeTask(list, item, callback){
 }
 
 function generateTask(task) {
-  var li = $('<li />').data("task", task).on("click", function(){
+  var li = $('<li />').data("task", task).on("click", function () {
+    /////////////////////////////////////////////////////////////////
     var $li = $(this);
-    if(!$li.hasClass("active") && !$li.hasClass("taskDone")){
+    if (!$li.hasClass("active") && !$li.hasClass("taskDone")) {
       $tasksContainer.children(".active").removeClass("active");
       $li.addClass("active");
     }
     else {
       $li.removeClass("active");
     }
+    generateUsersList();
+    /////////////////////////////////////////////////////////////////////
   });
   var taskTitle = $('<h2 class="taskTitle">' + task.taskTitle + '</h2>');
   var createData = $('<p class="createData">' + task.taskCreateTime + '</p>');
   var taskDescription = $('<p class="taskDescription">' + task.taskDescription + '</p>');
   var assigned = $('<p>Assigned to </p>');
-  var assignedCounter= $('<span>' + task.assignedWith.length + '</span>').after(" users").appendTo(assigned);
+  var assignedCounter= $('<span>' + task.assignedWith.length + ' users</span>').appendTo(assigned);
   var buttonWrapper = $('<div />').on("click", false);
   var buttonMoveTop = $('<button type="button">Move top</button>')
     .on("click", function () {
