@@ -180,10 +180,43 @@ var func3 = function (data){
 ///////////////////////////////////////////
 ////////////////////////Promise
 ///////////////////////////////////////////
-var promise = $.Deferred();
-console.log(promise);
+// var promise = $.Deferred();	
+// console.log(promise);
 
-// video time at 02:22:42
+
+var resolver, rejecter, notifier;
+// "then" 
+function callToServer(){
+	var promise = $.Deferred();	
+	console.log(promise);
+	resolver = function(){
+		promise.resolve("some resolve data");
+	}
+	rejecter = function(){
+		promise.rejecte("some reject data");
+	}
+	notifier = function(){
+		promise.notify("some notify data");
+	}
+	return promise.promise();
+}
+var promise = callToServer();
+
+promise.then(
+	function resolverFn(data) {
+		console.log(data);
+	},
+	function rejecterFn(data){
+		console.log(data);
+	},
+	function notifierFn(data){
+		console.log(data);
+	});
+
+setTimeout(resolver, 2000);
+setTimeout(rejecter, 2100);
+
+console.log(callToServer());
 
 
 
