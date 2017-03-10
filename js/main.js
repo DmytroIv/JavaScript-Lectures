@@ -188,18 +188,19 @@ var resolver, rejecter, notifier;
 // "then" 
 function callToServer(){
 	var promise = $.Deferred();	
-	console.log(promise);
+	//console.log(promise);
 	resolver = function(){
 		promise.resolve("some resolve data");
 	}
 	rejecter = function(){
-		promise.rejecte("some reject data");
+		promise.reject("some reject data");
 	}
 	notifier = function(){
 		promise.notify("some notify data");
 	}
 	return promise.promise();
 }
+
 var promise = callToServer();
 
 promise.then(
@@ -213,10 +214,57 @@ promise.then(
 		console.log(data);
 	});
 
-setTimeout(resolver, 2000);
-setTimeout(rejecter, 2100);
+// setTimeout(resolver, 2000);
+// setTimeout(rejecter, 2100);
 
-console.log(callToServer());
+// setTimeout(rejecter, 2000);
+// setTimeout(resolver, 2100);
+
+// setTimeout(function(){
+// 	promise.catch(function (data){
+// 		console.log(data);	
+// 	});
+// }, 2000);
+
+
+// promise.done(function done(data){
+// 	console.log("done", data);
+// }, function done2(data){
+// 	console.log("done 2", data);
+// });
+
+// promise.fail(function done(data){
+// 	console.log("fail", data);
+// }, function done2(data){
+// 	console.log("fail 2", data);
+// });
+
+// promise.progress(function done(data){
+// 	console.log("progress", data);
+// }, function done2(data){
+// 	console.log("progress 2", data);
+// });
+
+// promise.always(function(data){
+// 	console.log("always", data);
+// 	console.log(promise.state());
+// });
+
+setInterval(notifier, 200);
+setTimeout(resolver, 2000);
+
+var promise2 = $.Deferred();
+promise2.resolve({"test" : "rest"});
+
+$.when(promise, promise2).done(function(data1, data2){
+	console.log(data1, data2);
+	data2.test = "best";
+}).done(function(data1, data2){
+	console.log(data2.test);
+});
+	
+
+//console.log(callToServer());
 
 
 
