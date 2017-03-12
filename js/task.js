@@ -58,7 +58,7 @@
 		});
 
 		$completeButton.on("click", function (e) {
-			e.stopPropagation();
+		  e.stopPropagation();
 			controller.completeTask();
 		});
 

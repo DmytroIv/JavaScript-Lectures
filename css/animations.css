@@ -1,0 +1,13 @@
+.addUser, .addTask {
+  overflow: hidden;
+  position: relative;
+}
+.animatedBlock {
+  position: relative;
+}
+.completeMessage {
+  text-align: center;
+  padding: 20px 0;
+  position: absolute;
+  background: rgba(10, 132, 20, 1);
+}

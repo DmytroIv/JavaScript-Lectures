@@ -13,7 +13,7 @@
     var arrayUtils = app.getModule("arrayUtils");
 
     function createTODOList(users, tasks) {
-        var controller =  new CreateController(users, tasks);
+        var controller = new CreateController(users, tasks);
         return createView(controller);
     }
 
@@ -24,6 +24,10 @@
                 <div class="taskManagement"></div>\
             </div>'
         );
+
+      $viewTemplate.on("click", function(){
+
+      });
 
         $viewTemplate.find(".userManagement").append(
             addUserForm.createAddUserForm(controller.addUser.bind(controller))

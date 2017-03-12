@@ -1,70 +1,77 @@
+* {
+  box-sizing: border-box;
+}
+
 .mainTitle {
-	text-align:center;
+  text-align: center;
 }
+
 .mainTitle .logo {
-	width:100px;
-	vertical-align:middle;
+  width: 100px;
+  vertical-align: middle;
 }
+
 .mainTitle .text {
-	vertical-align:middle;
+  vertical-align: middle;
 }
+
 .todo-list {
-	overflow: hidden;
-	width: 70%;
-	margin: 0 auto;
+  overflow: hidden;
+  width: 70%;
+  margin: 0 auto;
 }
-.todo-list .userManagement,  .todo-list .taskManagement{
-	float: left;
-	width:40%;
-	box-sizing: border-box;
-	border: 2px solid #ccc;
-	padding: 10px;
-	margin: 5%;
+
+.todo-list .userManagement, .todo-list .taskManagement {
+  float: left;
+  width: 40%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  padding: 10px;
+  margin: 5%;
 }
 
 .todo-list .addUser input,
 .todo-list .addTask input {
-	display: block;
-	margin:0 0 5px;
+  display: block;
+  margin: 0 0 5px;
 }
 
 .todo-list input[type="text"],
 .todo-list textarea {
-	width: 100%;
+  width: 100%;
 }
-
 .todo-list p,
-.todo-list h2{
-	margin: 0;
-	padding: 0 0 5px;
+.todo-list h2 {
+  margin: 0;
+  padding: 0 0 5px;
 }
 
 .todo-list ul {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .todo-list li {
-	list-style: none;
-	padding: 5px;
-	margin: 5px 0;
-	border: 2px solid #ccc;;
+  list-style: none;
+  padding: 5px;
+  margin: 5px 0;
+  border: 2px solid #ccc;;
 }
 
-.todo-list .user labl {
-	display: block;
-	padding: 0 0 5px;
-
+.todo-list .user label {
+  display: block;
+  padding: 0 0 5px;
 }
 
 .todo-list .complete-btn {
-	margin: 5px 0 0;
+  margin: 5px 0 0;
 }
 
 .todo-list .completed {
-	background: #66FF66;
+  background: #66FF66;
 }
 
 .todo-list .active {
-	background: #c0c0c0;
+  background: #c0c0c0;
 }
+

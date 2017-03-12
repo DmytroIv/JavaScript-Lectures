@@ -18,7 +18,7 @@
             <li>\
                 <p class="userName">'+user.name+'</p>\
                 <p class="userEmail">'+user.email+'</p>\
-                <lable>Assignd <input class="assignCheckbox" type="checkbox"/> </lable>\
+                <lable>Assigned <input class="assignCheckbox" type="checkbox"/> </lable>\
                 <button class="deleteButton" type="button">Delete user</button>\
             </li>'
         );
@@ -30,6 +30,9 @@
 
         $assignCheckbox.on("change", function() {
             controller.changeAssign(this.checked);
+
+          //console.log($(this).parents("li").css("background-color", "#add"));
+
         });
 
         $deleteButton.on("click", function() {
