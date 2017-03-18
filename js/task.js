@@ -37,9 +37,20 @@
 
 		if (task.completed) {
 			$viewTemplate.addClass("completed");
+      //animation on taskComplete
+      $viewTemplate.fadeIn(1000);
 		}
 		else if (task.active) {
-			$viewTemplate.addClass("active");
+      $viewTemplate.addClass("active");
+			//animation on taskActive
+			$viewTemplate.css({"position": "relative"}).stop()
+          .animate({
+            "left": "-10px",
+            "background-color": "#c0c0c0",
+            "border-color": "#cfcfcf"
+          }, 700, "swing", function () {
+            $(this).animate({"left": "0"}, 500);
+          });
 		}
 
 		$deleteButton.on("click", function(e) {

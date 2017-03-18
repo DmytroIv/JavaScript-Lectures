@@ -30,9 +30,6 @@
 
         $assignCheckbox.on("change", function() {
             controller.changeAssign(this.checked);
-
-          //console.log($(this).parents("li").css("background-color", "#add"));
-
         });
 
         $deleteButton.on("click", function() {
