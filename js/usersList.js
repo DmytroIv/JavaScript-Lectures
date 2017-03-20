@@ -46,7 +46,7 @@
         function buildUsersList() {
             $listContainer.empty();
             usersList.forEach(function (user) {
-                $listContainer.append(userModule.createUser(user, controller.deleteUser.bind(controller), controller.onAssignChange));
+              $listContainer.append(userModule.createUser(user, controller.deleteUser.bind(controller), controller.onAssignChange));
             })
         }
 

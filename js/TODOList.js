@@ -75,6 +75,12 @@
   function addUser(user) {
     if (!arrayUtils.findInArray(this.getUsers(), {email: user.email})) {
       this.getUsers().push(user);
+
+      $.ajax("http://localhost:3000/users", {
+        "method" : "POST",
+        "data" : user
+      });
+
       this.resetView();
       return true;
     }
@@ -87,6 +93,12 @@
   function addTask(task) {
     if (!arrayUtils.findInArray(this.getTasks(), {id: task.id})) {
       this.getTasks().push(task);
+
+      $.ajax("http://localhost:3000/tasks", {
+        "method" : "POST",
+        "data" : task
+      });
+
       this.resetView();
       return true;
     }
@@ -116,6 +128,12 @@
         this._activeTask.assignedTo.splice(this._activeTask.assignedTo.indexOf(user.email), 1);
       }
     }
+
+    $.ajax("http://localhost:3000/users/" + user.id, {
+      "method" : "PUT",
+      "data" : user
+    });
+
     this.resetView();
   }
 
@@ -125,6 +143,11 @@
       var task = arrayUtils.findInArray(that.getTasks(), {id: taskId});
       task.assignedTo.splice(task.assignedTo.indexOf(user.email), 1);
     });
+
+    $.ajax("http://localhost:3000/users/" + user.id, {
+      "method" : "DELETE"
+    });
+
     this.resetView();
   }
 
@@ -140,6 +163,11 @@
     if (this._activeTask === task) {
       this._activeTask = null;
     }
+
+    $.ajax("http://localhost:3000/tasks/" + task.id, {
+      "method" : "DELETE"
+    });
+
     this.resetView();
   }
 
@@ -151,7 +179,7 @@
     this.getUsers().forEach(function (user) {
       user.assigned = !!~task.assignedTo.indexOf(user.email);
     });
-    this.resetView();
+   this.resetView();
   }
 
   function taskCompleted(task) {
@@ -164,6 +192,12 @@
       }
     });
     task.assignedTo = [];
+
+    $.ajax("http://localhost:3000/tasks/" + task.id, {
+      "method" : "PUT",
+      "data" : task
+    });
+
     this.resetView();
   }
 

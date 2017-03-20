@@ -1,72 +1,54 @@
 {
   "users": [
     {
-      "name": "asadsad asdas ",
-      "email": "asdasd@asdaf.ds",
-      "assigned": false,
-      "assignedTo": []
+      "id": "1@asd.sd",
+      "name": "1",
+      "email": "1@asd.sd",
+      "assigned": "false"
     },
     {
-      "name": "sarggfhf gh fgh",
-      "email": "asd2ASD@asd.ds",
-      "assigned": false,
-      "assignedTo": []
+      "id": "2@asd.sd",
+      "name": "2",
+      "email": "2@asd.sd",
+      "assigned": "false"
     },
     {
-      "name": "asd1 12 312",
-      "email": "asdkjash@asd.aadsd",
-      "assigned": false,
-      "assignedTo": []
+      "id": "3@asd.sd",
+      "name": "3",
+      "email": "3@asd.sd",
+      "assigned": "false"
     },
     {
-      "name": "asd 1231 ",
-      "email": "lkajf@asdfsd.sa",
-      "assigned": false,
-      "assignedTo": []
-    },
-    {
-      "name": "13214 234 324 ",
-      "email": "ad@dsa.asd",
-      "assigned": false,
-      "assignedTo": []
+      "id": "4@asd.ds",
+      "name": "4",
+      "email": "4@asd.ds",
+      "assigned": "false"
     }
   ],
   "tasks": [
     {
-      "title": "asd 1",
-      "description": "asdasdas asdsadasd asd as ",
-      "id": "asda d1231",
-      "active": false,
-      "createDate": {},
-      "completed": false,
-      "assignedTo": []
+      "title": "13",
+      "description": "123",
+      "id": "11df",
+      "createDate": "Mon Mar 20 2017 22:36:24 GMT+0200 (Финляндия (зима))",
+      "active": "false",
+      "completed": "false"
     },
     {
-      "title": "asd 2",
-      "description": "asd asdas dsad asdasd",
-      "id": "assa das123",
-      "active": false,
-      "createDate": {},
-      "completed": false,
-      "assignedTo": []
+      "title": "asddas",
+      "description": "asdas",
+      "id": "asddasd",
+      "createDate": "Mon Mar 20 2017 22:38:23 GMT+0200 (Финляндия (зима))",
+      "active": "false",
+      "completed": "false"
     },
     {
-      "title": "asd 3",
-      "description": "asd asdsad asd ",
-      "id": "asdasd 2",
-      "createDate": {},
-      "active": false,
-      "completed": false,
-      "assignedTo": []
-    },
-    {
-      "title": "asd 4",
-      "description": "asd asdsa sad sad asds",
-      "id": "sad 1",
-      "active": false,
-      "createDate": {},
-      "completed": false,
-      "assignedTo": []
+      "title": "dfdf",
+      "description": "dfddf",
+      "id": "ddffdfsa",
+      "createDate": "Mon Mar 20 2017 22:39:52 GMT+0200 (Финляндия (зима))",
+      "active": "false",
+      "completed": "false"
     }
   ]
 }

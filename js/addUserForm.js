@@ -55,10 +55,11 @@
 
   function getUserModel() {
     return {
-      name: "",
-      email: "",
-      assigned: false,
-      assignedTo: []
+      "id": "",
+      "name": "",
+      "email": "",
+      "assigned": false,
+      "assignedTo": []
     }
   }
 
@@ -76,13 +77,13 @@
   function addUser(userName, userEmail) {
     this._userModel.name = userName;
     this._userModel.email = userEmail;
+    this._userModel.id = userEmail;
     if (this.validateForm() && this._onAddUser(this._userModel)) {
       this._userModel = getUserModel();
       this.resetView();
       return true; //for checking when user is added or not
     }
   }
-
 
   function validateForm() {
     var errorMessage = "";

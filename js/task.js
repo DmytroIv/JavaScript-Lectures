@@ -38,7 +38,6 @@
 		if (task.completed) {
 			$viewTemplate.addClass("completed");
       //animation on taskComplete
-      $viewTemplate.fadeIn(1000);
 		}
 		else if (task.active) {
       $viewTemplate.addClass("active");
@@ -70,7 +69,7 @@
 
 		$completeButton.on("click", function (e) {
 		  e.stopPropagation();
-			controller.completeTask();
+		  controller.completeTask();
 		});
 
 		$viewTemplate.on("click", function(e) {
@@ -79,11 +78,12 @@
 		});
 
 		function getFormattedDate(date) {
-			return date.getDate() + "/" +
+			return date;
+			/*return date.getDate() + "/" +
 					(date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1) + "/" +
 					date.getFullYear() + " " +
 					(date.getHours() < 10 ? "0" + date.getHours() : date.getHours())  + ":" +
-					(date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());
+					(date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes());*/
 		}
 
 		return $viewTemplate;

@@ -52,6 +52,7 @@
 }
 
 .todo-list li {
+  position: relative;
   list-style: none;
   padding: 5px;
   margin: 5px 0;

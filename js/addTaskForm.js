@@ -64,13 +64,13 @@
 
   function getTaskModel() {
     return {
-      title: "",
-      description: "",
-      id: "",
-      createDate: new Date(),
-      active: false,
-      completed: false,
-      assignedTo: []
+      "title": "",
+      "description": "",
+      "id": "",
+      "createDate": new Date(),
+      "active": false,
+      "completed": false,
+      "assignedTo": []
     }
   }
 
