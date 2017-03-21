@@ -10,18 +10,18 @@
       "id": "2@asd.sd",
       "name": "2",
       "email": "2@asd.sd",
-      "assigned": "false"
+      "assigned": "true"
     },
     {
       "id": "3@asd.sd",
       "name": "3",
       "email": "3@asd.sd",
-      "assigned": "false"
+      "assigned": "true"
     },
     {
-      "id": "4@asd.ds",
+      "id": "4@asd.sd",
       "name": "4",
-      "email": "4@asd.ds",
+      "email": "4@asd.sd",
       "assigned": "false"
     }
   ],
@@ -47,7 +47,7 @@
       "description": "dfddf",
       "id": "ddffdfsa",
       "createDate": "Mon Mar 20 2017 22:39:52 GMT+0200 (Финляндия (зима))",
-      "active": "false",
+      "active": "true",
       "completed": "false"
     }
   ]

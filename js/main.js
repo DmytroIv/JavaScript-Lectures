@@ -2,17 +2,18 @@
   var TODO_List = app.getModule("TODOList");
   $.ajax("http://localhost:3000/db").done(function (response) {
 
-    response.users.forEach( function(item){
-      item.assigned = JSON.parse(item.assigned);
-      item.assignedTo = [];
-    });
-    response.tasks.forEach( function(item){
-      item.assignedTo = [];
-      item.active = JSON.parse(item.active);
-      item.completed = JSON.parse(item.completed);
-    } );
-    $("h1").after(TODO_List.createTODOList(response.users, response.tasks));
+    response.users.forEach( parseJSON);
+    response.tasks.forEach( parseJSON);
 
+    function parseJSON (item){
+      if(item.assignedTo) { console.log(item.assignedTo) }
+      else { item.assignedTo = []; }
+      if(item.active) { item.active = false; }
+      if(item.assigned) { item.assigned = false; }
+      if(item.completed) { item.completed = JSON.parse(item.completed); }
+    }
+
+    $("h1").after(TODO_List.createTODOList(response.users, response.tasks));
   });
 
 /*

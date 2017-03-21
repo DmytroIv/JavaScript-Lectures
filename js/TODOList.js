@@ -133,6 +133,10 @@
       "method" : "PUT",
       "data" : user
     });
+    $.ajax("http://localhost:3000/tasks/" + this._activeTask.id, {
+      "method" : "PUT",
+      "data" : this._activeTask
+    });
 
     this.resetView();
   }
