@@ -1,18 +1,29 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Base template</title>
+		<title>Lecture 21</title>
 		<link type="text/css" rel="stylesheet" media="all" href="css/main.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
 		<script src="js/main.js" defer></script>
 	</head>
-	<body>
+	<body ng-app="app"><!-- -->
 		<!-- This is base template for testing -->
-		<h1 class="mainTitle">
-			<img class="logo" src="images/logo.png" alt=""/>
-			<span class="text">Base template</span>
-		</h1>
+		<div ng-controller="myCtrl as myCtrl">
+			<h1 class="mainTitle">
+				<img class="logo" src="images/logo.png" alt=""/>
+				<span class="text">Lecture 21</span><br/>
+				<span class="text">{{myCtrl.serverData.myKey1}}</span>
+			</h1>
+			<h1>{{myCtrl.serverData.myKey2 | price}}</h1>
+			<button type="button" ng-click="myCtrl.askUser()">Ask user</button>
+			<p>{{myCtrl.userAction}}</p>
+			
+			<div ng-bind-html="myCtrl.html | toHtml"></div>
+			<div ng-bind-html="myCtrl.html2 | toHtml"></div>
+			
+			<h1>Timer: {{myCtrl.timer}}</h1>
+		</div>
 	</body>
 </html>
