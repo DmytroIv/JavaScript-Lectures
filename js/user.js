@@ -28,12 +28,6 @@
 
 
         $assignCheckbox[0].checked = user.assigned;
-        //my hW trying to animate
-        if($assignCheckbox[0].checked){
-          $assignCheckbox.parents("li").css({"width": 487, "height": 82}).animate({"left" : "-7px", "top": "-7px" ,"width" : 487 + 14, "height": 82 + 14},700, function(){
-            $(this).animate({"left" : "0", "top": "0", "width": 487, "height": 82}, 700);
-          });
-        }
 
         $assignCheckbox.on("change", function() {
           controller.changeAssign(this.checked);

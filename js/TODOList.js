@@ -78,7 +78,15 @@
 
       $.ajax("http://localhost:3000/users", {
         "method" : "POST",
-        "data" : user
+        "data" : {
+          "id": user.id,
+          "name": user.name,
+          "email": user.email,
+          "assignedTo": JSON.stringify([])
+        },
+        "success": function (data) {
+          console.log(data);
+        }
       });
 
       this.resetView();
@@ -96,7 +104,17 @@
 
       $.ajax("http://localhost:3000/tasks", {
         "method" : "POST",
-        "data" : task
+        "data" : {
+          "title": task.title,
+          "description": task.description,
+          "id": task.id,
+          "createDate": new Date(),
+          "completed": false,
+          "assignedTo": JSON.stringify([])
+        },
+        "success": function (data) {
+          console.log(data);
+        }
       });
 
       this.resetView();
@@ -122,23 +140,72 @@
       if (value) {
         user.assignedTo.push(this._activeTask.id);
         this._activeTask.assignedTo.push(user.email);
+
+        $.ajax("http://localhost:3000/users/" + user.id , {
+          "method" : "PUT",
+          "data" : {"assignedTo" : user.assignedTo},
+          "complete" : function(jqXHR, status){
+          },
+          "success": function (data) {
+            console.log(data);
+          }
+        });
+
+        $.ajax("http://localhost:3000/tasks/" + this._activeTask.id , {
+          "method" : "PUT",
+          "data" : {"assignedTo" : this._activeTask.assignedTo},
+          "complete" : function(jqXHR, status){
+          },
+          "success": function (data) {
+            console.log(data);
+          }
+        });
+
       }
       else {
         user.assignedTo.splice(user.assignedTo.indexOf(this._activeTask.id, 1));
         this._activeTask.assignedTo.splice(this._activeTask.assignedTo.indexOf(user.email), 1);
+
+        $.ajax("http://localhost:3000/users/" + user.id, {
+          "method" : "PATCH",
+          "data" : {"assignedTo" : user.assignedTo},
+          "complete" : function(jqXHR, status){
+            console.log(jqXHR,status);
+          }
+        });
+
+        $.ajax("http://localhost:3000/tasks/" + this._activeTask.id, {
+          "method" : "PATCH",
+          "data" : {"assignedTo" : this._activeTask.assignedTo},
+          "complete" : function(jqXHR, status){
+            console.log(jqXHR,status);
+          }
+        });
+
+
       }
     }
 
-    $.ajax("http://localhost:3000/users/" + user.id, {
-      "method" : "PUT",
-      "data" : user
-    });
-    $.ajax("http://localhost:3000/tasks/" + this._activeTask.id, {
-      "method" : "PUT",
-      "data" : this._activeTask
-    });
+
+
 
     this.resetView();
+
+
+
+
+      $("li").find(":checked").parents("li").css({"width": 487, "height": 82}).animate({
+        "left": "-7px",
+        "top": "-7px",
+        "width": 487 + 14,
+        "height": 82 + 14
+      }, 700, function () {
+        $(this).animate({"left": "0", "top": "0", "width": 487, "height": 82}, 700)
+          .removeClass("checked");
+      });
+
+
+
   }
 
   function userDeleted(user) {
@@ -146,6 +213,12 @@
     user.assignedTo.forEach(function (taskId) {
       var task = arrayUtils.findInArray(that.getTasks(), {id: taskId});
       task.assignedTo.splice(task.assignedTo.indexOf(user.email), 1);
+
+      $.ajax("http://localhost:3000/tasks/" + task.id, {
+        "method" : "PUT",
+        "data" : task
+      });
+
     });
 
     $.ajax("http://localhost:3000/users/" + user.id, {
@@ -160,6 +233,12 @@
     task.assignedTo.forEach(function (userEmail) {
       var user = arrayUtils.findInArray(that.getUsers(), {email: userEmail});
       user.assignedTo.splice(user.assignedTo.indexOf(task.id), 1);
+
+      $.ajax("http://localhost:3000/users/" + user.id, {
+       "method" : "PUT",
+       "data" : user
+       });
+
       if (that._activeTask === task) {
         user.assigned = false;
       }
@@ -172,6 +251,7 @@
       "method" : "DELETE"
     });
 
+
     this.resetView();
   }
 
@@ -183,7 +263,29 @@
     this.getUsers().forEach(function (user) {
       user.assigned = !!~task.assignedTo.indexOf(user.email);
     });
+
+    if(this._activeTask) {
+      $.ajax("http://localhost:3000/tasks/" + this._activeTask.id, {
+        "method": "PUT",
+        "data": this._activeTask,
+        "complete" : function() {
+
+          $(".active").stop()
+            .animate({
+              "left": "-10px",
+              "background-color": "#31c07c",
+              "border-color": "#ffde6f"
+            }, 700, "swing", function () {
+              $(this).animate({"left": "0"}, 500);
+            });
+
+        }
+      });
+    }
+
    this.resetView();
+
+
   }
 
   function taskCompleted(task) {
