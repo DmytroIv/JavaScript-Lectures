@@ -1,6 +1,62 @@
 {
   "users": [
+    {
+      "id": "1@a.s",
+      "name": "1",
+      "email": "1@a.s",
+      "assignedTo": "[]"
+    },
+    {
+      "id": "2@a.s",
+      "name": "2",
+      "email": "2@a.s",
+      "assignedTo": "[]"
+    },
+    {
+      "id": "3@q.q",
+      "name": "3",
+      "email": "3@q.q",
+      "assignedTo": "[]"
+    },
+    {
+      "id": "4@a.s",
+      "name": "4",
+      "email": "4@a.s",
+      "assignedTo": "[]"
+    }
   ],
   "tasks": [
+    {
+      "title": "2",
+      "description": "2",
+      "id": "2",
+      "createDate": "Mon Apr 03 2017 21:15:45 GMT+0300 (Финляндия (лето))",
+      "completed": "false",
+      "assignedTo": "[]"
+    },
+    {
+      "title": "1",
+      "description": "1",
+      "id": "1",
+      "createDate": "Mon Apr 03 2017 21:18:58 GMT+0300 (Финляндия (лето))",
+      "completed": "false",
+      "assignedTo": "[]"
+    },
+    {
+      "title": "3",
+      "description": "3",
+      "id": "3",
+      "createDate": "Mon Apr 03 2017 21:44:21 GMT+0300 (Финляндия (лето))",
+      "completed": "false",
+      "assignedTo": "[]"
+    },
+    {
+      "title": "4",
+      "description": "4",
+      "id": "4",
+      "createDate": "Mon Apr 03 2017 22:37:47 GMT+0300 (Финляндия (лето))",
+      "completed": "false",
+      "assignedTo": "[]"
+    }
   ]
 }
