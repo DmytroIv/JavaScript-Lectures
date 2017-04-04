@@ -6,7 +6,6 @@
     response.tasks.forEach(parseJSON);
 
     function parseJSON(item) {
-
       if (item.assignedTo) {
         item.assignedTo = JSON.parse(item.assignedTo);
       } else {

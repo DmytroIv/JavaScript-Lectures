@@ -29,6 +29,25 @@
     $assignCheckbox[0].checked = user.assigned;
 
     $assignCheckbox.on("change", function () {
+      var $li = $(this).parents("li");
+      var liWidth = $li.outerWidth();
+      var liHeight = $li.outerHeight();
+      var scale = 1.1;
+
+      $(this).parents("li").animate({
+        "left": -(liWidth * scale - liWidth)/2,
+        "top": -(liHeight * scale - liHeight)/2,
+        "width": liWidth * scale,
+        "height": liHeight * scale
+      }, 700, function () {
+        $(this).animate({
+          "left": "0",
+          "top": "0",
+          "width": liWidth,
+          "height": liHeight
+        }, 700)
+          .removeClass("checked");
+      });
       controller.changeAssign(this.checked);
     });
 

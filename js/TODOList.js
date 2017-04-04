@@ -34,7 +34,6 @@
         controller.userAssignChange.bind(controller)
       )
     );
-    console.log(controller);
     $viewTemplate.find(".taskManagement").append(
       addTaskForm.createAddTaskForm(controller.addTask.bind(controller))
     ).append(
@@ -47,8 +46,8 @@
     );
 
     controller.addResetView(function () {
-     tasksList.refreshView();
-     usersList.refreshView();
+      tasksList.refreshView();
+      usersList.refreshView();
     });
 
     return $viewTemplate;
@@ -138,9 +137,30 @@
 
         $.ajax("http://localhost:3000/users/" + user.id, {
           "method": "PATCH",
-          "data": {"assignedTo": JSON.stringify(user.assignedTo)}
-        });
+          "data": {"assignedTo": JSON.stringify(user.assignedTo)},
+          "success": function () {
+            var $li = $(":checked").parents("li");
+            var liWidth = $li.outerWidth();
+            var liHeight = $li.outerHeight();
+            var scale = 1.1;
 
+            $li.animate({
+              "left": -(liWidth * scale - liWidth) / 2,
+              "top": -(liHeight * scale - liHeight) / 2,
+              "width": liWidth * scale,
+              "height": liHeight * scale
+            }, 700, function () {
+              $li.animate({
+                "left": "0",
+                "top": "0",
+                "width": liWidth,
+                "height": liHeight
+              }, 700)
+                .removeClass("checked");
+            });
+
+          }
+        });
 
         $.ajax("http://localhost:3000/tasks/" + this._activeTask.id, {
           "method": "PATCH",
@@ -227,14 +247,14 @@
         "method": "PATCH",
         "success": function () {
 
-            $(".active").stop()
-              .animate({
-                "left": "-10px",
-                "background-color": "#31c07c",
-                "border-color": "#ffde6f"
-              }, 700, "swing", function () {
-                $(this).animate({"left": "0"}, 500);
-              });
+          $(".active").stop()
+            .animate({
+              "left": "-10px",
+              "background-color": "#31c07c",
+              "border-color": "#ffde6f"
+            }, 700, "swing", function () {
+              $(this).animate({"left": "0"}, 500);
+            });
         }
       });
     }
