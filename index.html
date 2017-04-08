@@ -10,6 +10,12 @@
   <script src="js/newsFeedModule.js" defer></script>
   <script src="js/newsFeedController.js" defer></script>
   <script src="js/newsfeedUrlConstants.js" defer></script>
+  <script src="js/newsfeedDescriptionFilter.js" defer></script>
+  <script src="js/toHtml.js" defer></script>
+  <script src="js/articleComponent.js" defer></script>
+  <script src="js/photosComponent.js" defer></script>
+  <script src="js/videoComponent.js" defer></script>
+
 </head>
 <body ng-app="app" ng-cloak>
 <!-- This is base template for testing -->
@@ -101,14 +107,35 @@
       </div>
     </form>
   </div>
-<!--Popup end-->
+  <!--Popup end-->
   <!--article list start-->
-  <ul>
-    <li ng-repeat="article in newsfeed.articles track by $index">
-      <h3>{{article.title}}</h3>
-      <span>{{article.createDate | date}}</span>
+  <ul class="newsfeedList">
+    <li ng-repeat="article in newsfeed.articles track by $index"
+		ng-switch="article.type"
+	>	
+     	
+		<article-component 
+		article="article" 
+		ng-switch-when="article"
+		on-delete="newsfeed.deleteArticle(article)"
+		on-edit="newsfeed.showEditPopup(article, $index)"
+		></article-component>
+		
+		<photos-component article="article" 
+		ng-switch-when="photos"
+		on-delete="newsfeed.deleteArticle(article)"
+		on-edit="newsfeed.showEditPopup(article, $index)"
+		></photos-component>
+		
+		<video-component article="article" 
+		ng-switch-when="video"
+		on-delete="newsfeed.deleteArticle(article)"
+		on-edit="newsfeed.showEditPopup(article, $index)"
+		></video-component>
+      </div>
     </li>
   </ul>
+
   <!--article list end-->
 </div>
 

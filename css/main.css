@@ -21,6 +21,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1;
 }
 .popupForm .close {
   position: absolute;
@@ -42,4 +43,50 @@
 }
 .ng-invalid.ng-touched, .ng-submitted, .ng-invalid {
   border-color: red;
+}
+.newsfeedList {
+	margin: 20px 0 0;
+	padding: 0;
+}
+.newsfeedList li {
+	margin-bottom: 20px;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  list-style-type: none;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.newsfeedList li:hover .editButtons {
+  opacity: 1;
+  visibility: visible;
+}
+
+.editButtons {
+  position: absolute;
+  right: 25px;
+  top: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease-in-out;
+}
+
+.newsfeedList li img {
+	width: 200px;
+	margin: 20px 0 0 10px;
+	vertical-align: top;
+}
+.newsfeedList li .video a {
+	display: inline-block;	
+	position: relative;
+}
+.newsfeedList li .video a:after {
+	content: "";
+	position:absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-25%, -50%);
+	border: 50px solid #ccc;
+	border-color: transparent transparent transparent #ccc;
 }

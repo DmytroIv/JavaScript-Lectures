@@ -22,6 +22,7 @@
     newsfeed.removePhoto = removePhoto;
     newsfeed.addPhoto = addPhoto;
     newsfeed.saveArticle = saveArticle;
+	newsfeed.deleteArticle = deleteArticle;
 
 
     //Functions
@@ -84,11 +85,17 @@
         hideEditPopup();
       }
     }
-
-
+	
+	function deleteArticle(article ,$index){
+		$http.delete(NEWSFEED_URL_CONSTANTS["DELETE_ARTICLE"] + "?id=" + article.id).then(function(){
+			newsfeed.articles.splice($index, 1);
+		});
+	}
     //Initialization
     (function () {
-
+		$http.get(NEWSFEED_URL_CONSTANTS["GET_NEWFEED"]).then(function(response){
+			newsfeed.articles = response.data;
+		});
     })();
   }
 

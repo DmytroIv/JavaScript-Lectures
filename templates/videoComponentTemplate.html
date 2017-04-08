@@ -1,0 +1,18 @@
+<h3>{{videoComponentCtrl.article.title}}</h3>
+<span>{{videoComponentCtrl.article.createdDate | date}}</span>
+<div class="video">
+	<a href="{{videoComponentCtrl.article.video}}" target="_blank">
+		<img 
+		ng-src="{{videoComponentCtrl.article.mainPhoto}}"
+		/>
+	</a>
+</div>	
+
+<div class="editButtons">
+<button type="button"
+		ng-click="videoComponentCtrl.editArticle()"
+>Edit</button>
+<button type="button"
+		ng-click="videoComponentCtrl.deleteArticle()"
+>Delete</button>
+</div>

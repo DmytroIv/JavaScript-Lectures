@@ -1,0 +1,19 @@
+<h3>{{articleComponentCtrl.article.title}}</h3>
+<span>{{articleComponentCtrl.article.createdDate | date}}</span>
+<div class="article">
+	<img 
+		ng-src="{{articleComponentCtrl.article.mainPhoto}}" 
+	/>
+	<p 
+		ng-bind-html="articleComponentCtrl.article.description | descriptionToHtml | toHtml" >
+	</p>
+</div>	
+
+<div class="editButtons">
+<button type="button"
+		ng-click="articleComponentCtrl.editArticle()"
+>Edit</button>
+<button type="button"
+		ng-click="articleComponentCtrl.deleteArticle()"
+>Delete</button>
+</div>

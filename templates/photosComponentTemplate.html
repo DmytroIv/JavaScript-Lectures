@@ -1,0 +1,17 @@
+<h3>{{photosComponentCtrl.article.title}}</h3>
+<span>{{photosComponentCtrl.article.createdDate | date}}</span>
+<div class="photos">
+			<img 
+			ng-repeat="photo in photosComponentCtrl.article.photos track by $index"
+			ng-src="{{photo}}"
+			/>
+		</div>
+
+<div class="editButtons">
+<button type="button"
+		ng-click="photosComponentCtrl.editArticle()"
+>Edit</button>
+<button type="button"
+		ng-click="photosComponentCtrl.deleteArticle()"
+>Delete</button>
+</div>
